@@ -1,0 +1,7 @@
+= Bases de datos para Ciencia de datos - Preparación de datos para análisis
+Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres
+:doctype: article
+:encoding: utf-8
+:lang: en
+:toc: left
+:numbered:

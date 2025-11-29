@@ -1,0 +1,11 @@
+nombre,empleo,sueldo,departamento_id,cantidad_empleados
+Clark,Directivo,2450.0,10,3
+King,Director,5000.0,10,3
+Miller,Ordenanza,1300.0,10,3
+Smith,Ordenanza,800.0,20,5
+Jones,Directivo,2975.0,20,5
+Scott,Analista,3000.0,20,5
+Adams,Ordenanza,1100.0,20,5
+Ford,Analista,3000.0,20,5
+Allen,Vendedor,1600.0,30,6
+Ward,Vendedor,1250.0,30,6

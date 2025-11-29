@@ -1,0 +1,52 @@
+= Bases de datos para Ciencia de datos (2 ECTS)
+Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres
+:doctype: article
+:encoding: utf-8
+:lang: en
+:numbered:
+:linkattrs:
+
+https://www2.ual.es/cdtime/2025/07/24/nuevo-master-de-formacion-permanente-en-ciencia-de-datos-y-matematica-computacional/[Web oficial]
+
+== Descripción del curso
+
+Este curso proporciona una introducción a las bases de datos relacionales y al lenguaje SQL, con un enfoque en su aplicación en la ciencia de datos. Los estudiantes aprenderán a diseñar, crear y gestionar bases de datos, así como a realizar consultas utilizando SQL para extraer y analizar datos. Se cubrirán temas como las relaciones entre tablas, las funciones de agregación y las subconsultas. Además, se explorarán técnicas avanzadas de SQL, como las funciones de ventana. El curso también incluirá prácticas utilizando Jupyter Notebooks para ejecutar consultas SQL y analizar los resultados, proporcionando a los estudiantes una experiencia práctica en el manejo de bases de datos en un entorno de Ciencia de datos.
+
+== Configuración del entorno de trabajo
+
+* link:entorno.html[Entorno de trabajo, window="_blank"]
+
+== Contenidos
+
+* link:arquitecturas_de_datos.html[Arquitecturas de datos. Datos estructurados y no estructurados, window="_blank"]
+* link:sql.html[SQL para Ciencia de datos, window="_blank"]
+* link:preparacion_datos.html[Preparación de datos para análisis, window="_blank"]
+
+== Material
+
+* https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/introduccion/sql.ipynb[Notebook de introducción a SQL con la base de datos de RRHH, window="_blank"]
+* https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/ejercicios/ejercicios-sg.ipynb[Notebook de ejercicios para la base de datos de Sporting Goods, window="_blank"]
+
+== Bases de datos de ejemplo
+
+* Base de datos de Recursos Humanos (RRHH)
+    ** link:scripts/RRHH/RRHH.sql[Script de inicialización de la Base de datos RRHH]
+    ** link:tables/RRHH/Departamento.html[Tabla Departamento, window="_blank"]
+    ** link:tables/RRHH/Empleado.html[Tabla Empleado, window="_blank"]
+    ** https://github.com/ualmtorres/GEBD_BD/tree/master/scripts/RRHH[Código de las consultas, window="_blank"]
+    ** Diagrama (link:models/RRHH.mwb[.mwb]/link:models/RRHH.pdf[.pdf])
+
+* Base de datos de Sporting Goods (SG)
+    ** link:scripts/SG/SG.sql[Script de inicialización de la Base de datos SG]
+    ** Diagrama (link:models/SG.mwb[.mwb]/link:models/SG.pdf[.pdf])
+
+* Base de datos de Pensiones (Pensiones)
+    ** link:scripts/Pensiones/Pensiones.sql[Script de inicialización de la Base de datos Pensiones]
+    ** Diagrama (link:models/Pensiones.mwb[.mwb]/link:models/Pensiones.pdf[.pdf])
+
+* Base de datos de Tiendas (Tiendas) (_Esquema en estrella_)
+    ** link:scripts/Tienda/Tienda.sql[Script de creación de la Base de datos Tienda]
+    ** link:tables/Tienda/Cuando.csv[Datos de Fechas]
+    ** link:tables/Tienda/Donde.csv[Datos de Tiendas]
+    ** link:tables/Tienda/Que.csv[Datos de Productos]
+    ** link:tables/Tienda/Cuando.csv[Datos de Tiempo]

@@ -1,0 +1,11 @@
+nombre,empleo,sueldo,departamento_id,diferencia_sueldo
+Miller,Ordenanza,1300.0,10,
+Clark,Directivo,2450.0,10,1150.0
+King,Director,5000.0,10,2550.0
+Smith,Ordenanza,800.0,20,
+Adams,Ordenanza,1100.0,20,300.0
+Jones,Directivo,2975.0,20,1875.0
+Scott,Analista,3000.0,20,25.0
+Ford,Analista,3000.0,20,0.0
+James,Ordenanza,950.0,30,
+Ward,Vendedor,1250.0,30,300.0
