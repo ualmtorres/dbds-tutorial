@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.22">
-<meta name="author" content="Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres">
+<meta name="author" content="Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres &lt;mtorres@ual.es&gt;">
 <title>Bases de datos para Ciencia de datos - Arquitecturas de datos. Datos estructurados y no estructurados</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -435,19 +435,469 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="book toc2 toc-right">
 <div id="header">
 <h1>Bases de datos para Ciencia de datos - Arquitecturas de datos. Datos estructurados y no estructurados</h1>
 <div class="details">
-<span id="author" class="author">Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres</span><br>
+<span id="author" class="author">Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres &lt;mtorres@ual.es&gt;</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Tabla de contenidos</div>
+<ul class="sectlevel1">
+<li><a href="#_resumen">Resumen</a></li>
+<li><a href="#introduccion">1. Rol Fundamental de los Datos en Ciencia de Datos</a></li>
+<li><a href="#seccion_1_tipos">2. Datos estructurados, semi-estructurados y no estructurados</a>
+<ul class="sectlevel2">
+<li><a href="#_datos_estructurados">2.1. Datos estructurados</a></li>
+<li><a href="#_datos_no_estructurados">2.2. Datos no estructurados</a></li>
+<li><a href="#_datos_semiestructurados">2.3. Datos semiestructurados</a></li>
+<li><a href="#_comparativa_de_tipos_de_datos">2.4. Comparativa de tipos de datos</a></li>
+</ul>
+</li>
+<li><a href="#seccion_2_dbms">3. DBMS, Modelos de datos y claves</a>
+<ul class="sectlevel2">
+<li><a href="#_el_sistema_de_gestión_de_bases_de_datos_dbms">3.1. El Sistema de Gestión de Bases de Datos (DBMS)</a></li>
+<li><a href="#_modelo_relacional">3.2. Modelo relacional</a></li>
+<li><a href="#_claves">3.3. Claves</a></li>
+</ul>
+</li>
+<li><a href="#_licencia">4. Licencia</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
-
+<div class="sect1">
+<h2 id="_resumen">Resumen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En este capítulo se exploran las arquitecturas de datos fundamentales para la Ciencia de Datos, centrándose en la clasificación de los datos en estructurados, semiestructurados y no estructurados. Se analizan las características, usos y desafíos asociados a cada tipo de datos, así como las herramientas y tecnologías empleadas para su gestión. Además, se introduce el concepto de Sistemas de Gestión de Bases de Datos (DBMS) y el modelo relacional, destacando la importancia de las claves primarias y ajenas en la organización y relación de los datos. Este conocimiento es esencial para diseñar arquitecturas de datos eficientes que soporten las necesidades analíticas en proyectos de Ciencia de Datos.</p>
+</div>
+<div class="ulist">
+<div class="title">Objetivos</div>
+<ul>
+<li>
+<p>Comprender la importancia de los datos en la Ciencia de Datos y su rol fundamental en las arquitecturas de datos.</p>
+</li>
+<li>
+<p>Diferenciar entre datos estructurados, semiestructurados y no estructurados, identificando sus características, usos y desafíos.</p>
+</li>
+<li>
+<p>Conocer las herramientas y lenguajes asociados a cada tipo de datos.</p>
+</li>
+<li>
+<p>Introducir el concepto de Sistemas de Gestión de Bases de Datos (DBMS) y su función en la gestión de datos.</p>
+</li>
+<li>
+<p>Familiarizarse con el modelo relacional y las claves primarias y ajenas como mecanismos esenciales para la organización y relación de los datos.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduccion">1. Rol Fundamental de los Datos en Ciencia de Datos</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El pilar de cualquier estrategia de Ciencia de Datos es contar con una arquitectura sólida capaz de gestionar de manera efectiva la Variedad, el Volumen y la Velocidad de la información. Comprender los tipos de datos es el primer paso para construir dicha arquitectura.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="seccion_1_tipos">2. Datos estructurados, semi-estructurados y no estructurados</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La forma en que se organiza y almacena la información determina cómo se puede procesar y analizar. A continuación, se detallan las características, usos y retos de los tres tipos principales de datos.</p>
+</div>
+<div class="sect2">
+<h3 id="_datos_estructurados">2.1. Datos estructurados</h3>
+<div class="paragraph">
+<p>Los datos estructurados son la forma más tradicional y organizada de información, siendo la base para muchos análisis de negocio.</p>
+</div>
+<div class="sect3">
+<h4 id="_características_principales">2.1.1. Características principales</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Son datos altamente organizados.</p>
+</li>
+<li>
+<p>Se ajustan a un modelo de datos predefinido que sigue un esquema rígido.</p>
+</li>
+<li>
+<p>El modelo relacional es el más popular y extendido para su gestión.</p>
+</li>
+<li>
+<p>Se presentan en un formato tabular, compuesto por filas y columnas.</p>
+</li>
+<li>
+<p>En este formato tabular, las filas representan las entidades u objetos de la realidad, mientras que las columnas representan sus propiedades o características.</p>
+</li>
+<li>
+<p>Son relativamente fáciles de buscar, consultar y analizar mediante lenguajes específicos. A estos lenguajes se les denomina Lenguajes de Definición y Manipulación de Datos (DDL y DML). Un ejemplo destacado es el SQL (Structured Query Language).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_herramientas_y_lenguajes">2.1.2. Herramientas y lenguajes</h4>
+<div class="paragraph">
+<p>Para la gestión de datos estructurados, se utilizan herramientas y lenguajes estandarizados:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>RDMBS (Relational Database Management Systems): Sistemas como MySQL, SQL Server, PostgreSQL u Oracle. Se utilizan para almacenar, gestionar y consultar datos estructurados.</p>
+</li>
+<li>
+<p>SQL (Structured Query Language): Este es el lenguaje estándar y universal diseñado específicamente para definir y manipular datos estructurados.</p>
+</li>
+<li>
+<p>Hojas de cálculo: Representan la forma más básica y común de datos estructurados para los usuarios de negocio, incluyendo herramientas como Microsoft Excel y Google Sheets.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplos_comunes">2.1.3. Ejemplos Comunes</h4>
+<div class="paragraph">
+<p>Los datos estructurados incluyen registros de negocio y financieros, tales como:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Clientes y Productos.</p>
+</li>
+<li>
+<p>Cuentas corrientes y Transacciones bancarias.</p>
+</li>
+<li>
+<p>Tarjetas de crédito y Préstamos hipotecarios.</p>
+</li>
+<li>
+<p>Ensayos clínicos.</p>
+</li>
+<li>
+<p>Pólizas de seguros y Siniestros de una póliza de seguros.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_datos_no_estructurados">2.2. Datos no estructurados</h3>
+<div class="paragraph">
+<p>Los datos no estructurados son aquellos que carecen de un modelo de datos predefinido y representan la mayor parte de la información generada en la actualidad.</p>
+</div>
+<div class="sect3">
+<h4 id="_características_principales_2">2.2.1. Características principales</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>No tienen un modelo de datos predefinido.</p>
+</li>
+<li>
+<p>Se almacenan generalmente en su formato nativo.</p>
+</li>
+<li>
+<p>Resultan difíciles de procesar y analizar si no se aplica un procesamiento previo.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplos_comunes_2">2.2.2. Ejemplos comunes</h4>
+<div class="paragraph">
+<p>Estos datos abarcan archivos de texto y contenido multimedia:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Correos electrónicos y archivos PDF.</p>
+</li>
+<li>
+<p>Documentos de texto.</p>
+</li>
+<li>
+<p>Publicaciones en redes sociales.</p>
+</li>
+<li>
+<p>Archivos multimedia (sonido, video, imágenes).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_retos_del_procesamiento_y_almacenamiento">2.2.3. Retos del procesamiento y almacenamiento</h4>
+<div class="paragraph">
+<p>Los datos no estructurados presentan desafíos significativos en cuanto a almacenamiento y procesamiento:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Almacenamiento y coste:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crecimiento: Presentan un crecimiento exponencial, a menudo enmarcados dentro del concepto de Big Data.</p>
+</li>
+<li>
+<p>Espacio: Requieren mucho más espacio de almacenamiento en comparación con los datos estructurados.</p>
+</li>
+<li>
+<p>Sistemas: Exigen la necesidad de implementar sistemas de archivos distribuidos o almacenamiento de objetos para mantener un coste asumible.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Procesamiento y tecnología:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Complejidad: Su naturaleza impide el uso de consultas SQL simples.</p>
+</li>
+<li>
+<p>Preprocesamiento: Requieren la aplicación de técnicas avanzadas de preprocesamiento.</p>
+</li>
+<li>
+<p>Tecnología (IA): Necesitan el uso de Inteligencia Artificial (IA), específicamente el Procesamiento de Lenguaje Natural y la Visión por computador.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_datos_semiestructurados">2.3. Datos semiestructurados</h3>
+<div class="paragraph">
+<p>Los datos semiestructurados actúan como un punto intermedio, ofreciendo una estructura flexible que utiliza etiquetas para la organización.</p>
+</div>
+<div class="sect3">
+<h4 id="_características_principales_3">2.3.1. Características principales</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Se consideran un puente entre los dos mundos (estructurado y no estructurado).</p>
+</li>
+<li>
+<p>A diferencia del modelo relacional, no poseen un esquema rígido de tipo tabular.</p>
+</li>
+<li>
+<p>Utilizan etiquetas para organizar y delimitar la información.</p>
+</li>
+<li>
+<p>La organización es jerárquica, lo que implica que los datos están anidados.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_formatos_comunes">2.3.2. Formatos comunes</h4>
+<div class="paragraph">
+<p>Los formatos más utilizados en este ámbito son:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JSON (JavaScript Object Notation): Es un formato muy usado en APIs y aplicaciones web. A continuación, un ejemplo sencillo de un objeto JSON que representa a una persona:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "nombre": "Juan Pérez",
+    "edad": 30,
+    "direccion": {
+        "calle": "Calle Falsa 123",
+        "ciudad": "Madrid",
+        "pais": "España"
+    },
+    "telefonos": ["+34 600 123 456", "+34 600 654 321"]
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>XML (eXtensible Markup Language): Considerado el predecesor de JSON. Se emplea en diversas aplicaciones, incluyendo servicios web y configuraciones. A continuación, un ejemplo sencillo de un documento XML que representa a una persona:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;persona&gt;
+    &lt;nombre&gt;Juan Pérez&lt;/nombre&gt;
+    &lt;edad&gt;30&lt;/edad&gt;
+    &lt;direccion&gt;
+        &lt;calle&gt;Calle Falsa 123&lt;/calle&gt;
+        &lt;ciudad&gt;Madrid&lt;/ciudad&gt;
+        &lt;pais&gt;España&lt;/pais&gt;
+    &lt;/direccion&gt;
+    &lt;telefonos&gt;
+        &lt;telefono&gt;+34 600 123 456&lt;/telefono&gt;
+        &lt;telefono&gt;+34 600 654 321&lt;/telefono&gt;
+    &lt;/telefonos&gt;
+&lt;/persona&gt;</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Como se observa en los ejemplos, ambos formatos permiten representar datos de manera jerárquica y flexible, facilitando el intercambio de información entre sistemas diversos. Se observa también que JSON tiende a ser más conciso y legible para los humanos, mientras que XML es más verboso. Sin embargo, XML ofrece una mayor capacidad de definición de estructuras complejas mediante el uso de esquemas.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparativa_de_tipos_de_datos">2.4. Comparativa de tipos de datos</h3>
+<div class="paragraph">
+<p>La siguiente tabla resume las diferencias clave entre los tres tipos de datos:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Característica</th>
+<th class="tableblock halign-left valign-top">Datos estructurados</th>
+<th class="tableblock halign-left valign-top">Datos semiestructurados</th>
+<th class="tableblock halign-left valign-top">Datos no estructurados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Modelo de datos</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Predefinido y rígido – Definido a priori</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No definido y flexible – Definido sobre la marcha</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No definido y flexible – Definido sobre la marcha</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Usos</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Almacenamiento de datos alfanuméricos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Almacenamiento de datos alfanuméricos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Almacenamiento de datos binarios (sonido, video, imágenes) y texto libre</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Facilidad de búsqueda</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta (mediante consultas simples)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alta (mediante consultas no siempre simples)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Baja</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Herramientas</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RDBMS (Relational Database Management Systems)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NoSQL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hadoop, Data Lakes, IA</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="seccion_2_dbms">3. DBMS, Modelos de datos y claves</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La gestión efectiva de la información se logra a través de los Sistemas de Gestión de Bases de Datos (DBMS) y la aplicación de modelos de datos específicos.</p>
+</div>
+<div class="sect2">
+<h3 id="_el_sistema_de_gestión_de_bases_de_datos_dbms">3.1. El Sistema de Gestión de Bases de Datos (DBMS)</h3>
+<div class="paragraph">
+<p>Los datos son gestionados por un DBMS (Database Management System), el cual es un software con funciones clave:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Definición de la base de datos: Ofrece el DDL (Data Definition Language).</p>
+</li>
+<li>
+<p>Construcción de la base de datos: Se encarga de la gestión del almacenamiento físico de los datos.</p>
+</li>
+<li>
+<p>Manipulación de la base de datos: Ofrece el DML (Data Manipulation Language).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modelo_relacional">3.2. Modelo relacional</h3>
+<div class="paragraph">
+<p>Un modelo de datos es una notación utilizada para describir y organizar los datos. El modelo relacional es el más extendido en la actualidad.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Organización: Organiza los datos en tablas.</p>
+</li>
+<li>
+<p>Filas: Representan las entidades u objetos de la realidad.</p>
+</li>
+<li>
+<p>Columnas: Se utilizan para especificar las propiedades o características de dichas entidades.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_claves">3.3. Claves</h3>
+<div class="paragraph">
+<p>Las claves son mecanismos esenciales dentro del modelo relacional para garantizar la unicidad e integridad de la información.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/atleta-db.png" alt="Diagrama relacional con claves primaria y ajena">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_clave_primaria_primary_key">3.3.1. Clave primaria (Primary Key)</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Es una columna o un conjunto de columnas cuya función es identificar de forma única a una fila específica dentro de una tabla.</p>
+</li>
+<li>
+<p>Ejemplos: <code>idAtleta</code> en la tabla <code>Atleta</code>, <code>codigoISO</code> en la tabla <code>País</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_clave_ajena_foreign_key">3.3.2. Clave ajena (Foreign Key)</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Es una columna o un conjunto de columnas que reside en una tabla y hace referencia a una clave primaria (generalmente situada en otra tabla).</p>
+</li>
+<li>
+<p>Establecen la relación entre las entidades.</p>
+</li>
+<li>
+<p>Ejemplo: La clave ajena <code>nacidoEn</code> en la tabla <code>Atleta</code> hace referencia a la clave primaria <code>codigoISO</code> en la tabla <code>País</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_licencia">4. Licencia</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Licencia CC BY-NC-ND 4.0</p>
+</div>
+<div class="paragraph">
+<p>Copyright (c) 2025 [Manuel Torres - Departamento de Informática - Universidad de Almería]</p>
+</div>
+<div class="paragraph">
+<p>Este proyecto está licenciado bajo la Licencia CC BY-NC-ND 4.0. Esto significa que puedes compartir el proyecto siempre que cites al autor, no lo uses para fines comerciales y no realices obras derivadas.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-29 18:57:59 +0100
+Last updated 2025-11-29 21:05:58 +0100
 </div>
 </div>
 </body>

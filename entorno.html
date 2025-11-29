@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.22">
-<meta name="author" content="Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres">
+<meta name="author" content="Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres &lt;mtorres@ual.es&gt;">
 <title>Bases de datos para Ciencia de datos - Entorno de trabajo</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -435,28 +435,54 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article toc2 toc-left">
+<body class="book toc2 toc-right">
 <div id="header">
 <h1>Bases de datos para Ciencia de datos - Entorno de trabajo</h1>
 <div class="details">
-<span id="author" class="author">Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres</span><br>
+<span id="author" class="author">Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres &lt;mtorres@ual.es&gt;</span><br>
 </div>
 <div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
+<div id="toctitle">Tabla de contenidos</div>
 <ul class="sectlevel1">
-<li><a href="#_configuración_del_entorno_de_trabajo">1. Configuración del entorno de trabajo</a>
+<li><a href="#_resumen">Resumen</a></li>
+<li><a href="#_introducción">1. Introducción</a></li>
+<li><a href="#_configuración_del_entorno_de_trabajo">2. Configuración del entorno de trabajo</a>
 <ul class="sectlevel2">
-<li><a href="#_configuración_del_servidor_de_bases_de_datos_mysql">1.1. Configuración del servidor de bases de datos MySQL</a></li>
-<li><a href="#_configuración_de_jupyter_notebooks">1.2. Configuración de Jupyter Notebooks</a></li>
-<li><a href="#_mysql_workbench_opcional">1.3. MySQL Workbench (opcional)</a></li>
+<li><a href="#_configuración_del_servidor_de_bases_de_datos_mysql">2.1. Configuración del servidor de bases de datos MySQL</a></li>
+<li><a href="#_configuración_de_jupyter_notebooks">2.2. Configuración de Jupyter Notebooks</a></li>
+<li><a href="#_mysql_workbench_opcional">2.3. MySQL Workbench (opcional)</a></li>
 </ul>
 </li>
-<li><a href="#_descarga_de_los_notebooks_del_curso">2. Descarga de los notebooks del curso</a></li>
+<li><a href="#_descarga_de_los_notebooks_del_curso">3. Descarga de los notebooks del curso</a></li>
+<li><a href="#_licencia">4. Licencia</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_resumen">Resumen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El entorno de trabajo para este curso se basa en Jupyter Notebooks y un servidor de bases de datos MySQL. Jupyter Notebooks es una herramienta interactiva que permite combinar código, texto y visualizaciones en un solo documento, facilitando el aprendizaje práctico. MySQL es un sistema gestor de bases de datos relacional ampliamente utilizado que soporta SQL, el lenguaje estándar para la gestión y manipulación de bases de datos. En este tutorial, se describen los pasos necesarios para configurar este entorno, incluyendo la instalación de Jupyter y las extensiones necesarias para ejecutar SQL, así como la configuración de un servidor MySQL, ya sea localmente o mediante un servicio en la nube como Aiven.</p>
+</div>
+<div class="ulist">
+<div class="title">Objetivos</div>
+<ul>
+<li>
+<p>Configurar un entorno de trabajo basado en Jupyter Notebooks y MySQL.</p>
+</li>
+<li>
+<p>Crear una instancia de MySQL en Aiven.</p>
+</li>
+<li>
+<p>Conectar Jupyter Notebooks a un servidor de bases de datos MySQL.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introducción">1. Introducción</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Para el desarrollo práctico de este módulo usaremos un entorno de trabajo basado en Jupyter Notebooks y un servidor de bases de datos. El servidor de bases de datos podría ser cualquier sistema gestor de bases de datos relacional (RDBMS) que soporte SQL, como PostgreSQL, SQLite, Oracle, SQL Server,
@@ -468,13 +494,13 @@ pero en este módulo usaremos MySQL.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuración_del_entorno_de_trabajo">1. Configuración del entorno de trabajo</h2>
+<h2 id="_configuración_del_entorno_de_trabajo">2. Configuración del entorno de trabajo</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Para preparar el entorno de trabajo, sigue estos pasos.</p>
 </div>
 <div class="sect2">
-<h3 id="_configuración_del_servidor_de_bases_de_datos_mysql">1.1. Configuración del servidor de bases de datos MySQL</h3>
+<h3 id="_configuración_del_servidor_de_bases_de_datos_mysql">2.1. Configuración del servidor de bases de datos MySQL</h3>
 <div class="paragraph">
 <p>Para el desarrollo de las prácticas, puedes instalar MySQL en tu máquina local o usar un servicio de bases de datos en la nube.</p>
 </div>
@@ -531,7 +557,7 @@ pero en este módulo usaremos MySQL.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuración_de_jupyter_notebooks">1.2. Configuración de Jupyter Notebooks</h3>
+<h3 id="_configuración_de_jupyter_notebooks">2.2. Configuración de Jupyter Notebooks</h3>
 <div class="paragraph">
 <p>Para usar Jupyter Notebooks con SQL, necesitas instalar Jupyter y las extensiones necesarias. Puedes hacerlo usando <code>pip</code>, el gestor de paquetes de Python. Abre una terminal y ejecuta los siguientes comandos:</p>
 </div>
@@ -568,7 +594,7 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mysql_workbench_opcional">1.3. MySQL Workbench (opcional)</h3>
+<h3 id="_mysql_workbench_opcional">2.3. MySQL Workbench (opcional)</h3>
 <div class="paragraph">
 <p>MySQL Workbench es una herramienta visual para diseñar, modelar, generar y gestionar bases de datos MySQL. Aunque no es estrictamente necesario para este curso, puede ser útil para visualizar y gestionar la base de datos de manera más intuitiva. Además, cuenta con herramientas de modelado y de ingeniería inversa que permiten crear diagramas entidad-relación (ER) a partir de una base de datos existente. Puedes <a href="https://dev.mysql.com/downloads/workbench/">descargar MySQL Workbench desde la página oficial</a>.</p>
 </div>
@@ -582,7 +608,7 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_descarga_de_los_notebooks_del_curso">2. Descarga de los notebooks del curso</h2>
+<h2 id="_descarga_de_los_notebooks_del_curso">3. Descarga de los notebooks del curso</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Los notebooks del curso están disponibles en el repositorio de GitHub del curso. Puedes clonar el repositorio usando <code>git</code> o descargar los archivos directamente desde la página web del repositorio.</p>
@@ -600,10 +626,24 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_licencia">4. Licencia</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Licencia CC BY-NC-ND 4.0</p>
+</div>
+<div class="paragraph">
+<p>Copyright (c) 2025 [Manuel Torres - Departamento de Informática - Universidad de Almería]</p>
+</div>
+<div class="paragraph">
+<p>Este proyecto está licenciado bajo la Licencia CC BY-NC-ND 4.0. Esto significa que puedes compartir el proyecto siempre que cites al autor, no lo uses para fines comerciales y no realices obras derivadas.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-29 18:54:05 +0100
+Last updated 2025-11-29 21:04:48 +0100
 </div>
 </div>
 </body>

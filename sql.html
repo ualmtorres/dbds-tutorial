@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.22">
-<meta name="author" content="Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres">
+<meta name="author" content="Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres &lt;mtorres@ual.es&gt;">
 <title>Bases de datos para Ciencia de datos - SQL</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -435,66 +435,67 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article toc2 toc-left">
+<body class="book toc2 toc-right">
 <div id="header">
 <h1>Bases de datos para Ciencia de datos - SQL</h1>
 <div class="details">
-<span id="author" class="author">Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres</span><br>
+<span id="author" class="author">Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres &lt;mtorres@ual.es&gt;</span><br>
 </div>
 <div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
+<div id="toctitle">Tabla de contenidos</div>
 <ul class="sectlevel1">
-<li><a href="#_introducción">1. Introducción</a></li>
-<li><a href="#_usos">2. Usos</a></li>
-<li><a href="#_sintaxis_básica">3. Sintaxis básica</a></li>
-<li><a href="#_operaciones_de_consulta_sencillas_para_el_filtrado_de_filas_y_columnas">4. Operaciones de consulta sencillas para el filtrado de filas y columnas</a>
+<li><a href="#_introducción">Introducción</a></li>
+<li><a href="#_usos">Usos</a></li>
+<li><a href="#_sintaxis_básica">Sintaxis básica</a></li>
+<li><a href="#_operaciones_de_consulta_sencillas_para_el_filtrado_de_filas_y_columnas">Operaciones de consulta sencillas para el filtrado de filas y columnas</a>
 <ul class="sectlevel2">
-<li><a href="#_consultas_con_varias_condiciones">4.1. Consultas con varias condiciones</a></li>
-<li><a href="#_el_operador_lógico_in_y_búsqueda_aproximada">4.2. El operador lógico IN y búsqueda aproximada</a></li>
-<li><a href="#_manejo_de_nulos">4.3. Manejo de nulos</a></li>
-<li><a href="#_consultas_de_un_rango_de_valores">4.4. Consultas de un rango de valores</a></li>
-<li><a href="#_uso_de_expresiones_en_select">4.5. Uso de expresiones en SELECT</a></li>
-<li><a href="#_renombrado_de_columnas">4.6. Renombrado de columnas</a></li>
+<li><a href="#_consultas_con_varias_condiciones">Consultas con varias condiciones</a></li>
+<li><a href="#_el_operador_lógico_in_y_búsqueda_aproximada">El operador lógico IN y búsqueda aproximada</a></li>
+<li><a href="#_manejo_de_nulos">Manejo de nulos</a></li>
+<li><a href="#_consultas_de_un_rango_de_valores">Consultas de un rango de valores</a></li>
+<li><a href="#_uso_de_expresiones_en_select">Uso de expresiones en SELECT</a></li>
+<li><a href="#_renombrado_de_columnas">Renombrado de columnas</a></li>
 </ul>
 </li>
-<li><a href="#_manejo_de_fechas">5. Manejo de fechas</a>
+<li><a href="#_manejo_de_fechas">Manejo de fechas</a>
 <ul class="sectlevel2">
-<li><a href="#_funciones_para_el_manejo_de_fechas">5.1. Funciones para el manejo de fechas</a></li>
-<li><a href="#_eliminación_de_duplicados">5.2. Eliminación de duplicados</a></li>
-<li><a href="#_ordenación_y_limitación_de_resultados">5.3. Ordenación y limitación de resultados</a></li>
-<li><a href="#_funciones_de_agregación">5.4. Funciones de agregación</a></li>
+<li><a href="#_funciones_para_el_manejo_de_fechas">Funciones para el manejo de fechas</a></li>
+<li><a href="#_eliminación_de_duplicados">Eliminación de duplicados</a></li>
+<li><a href="#_ordenación_y_limitación_de_resultados">Ordenación y limitación de resultados</a></li>
+<li><a href="#_funciones_de_agregación">Funciones de agregación</a></li>
 </ul>
 </li>
-<li><a href="#_agregación_de_resultados">6. Agregación de resultados</a></li>
-<li><a href="#_combinación_de_tablas">7. Combinación de tablas</a>
+<li><a href="#_agregación_de_resultados">Agregación de resultados</a></li>
+<li><a href="#_combinación_de_tablas">Combinación de tablas</a>
 <ul class="sectlevel2">
-<li><a href="#_combinación_de_tablas_con_producto_cartesiano">7.1. Combinación de tablas con producto cartesiano</a></li>
-<li><a href="#_combinación_de_tablas_con_inner_join">7.2. Combinación de tablas con INNER JOIN</a></li>
-<li><a href="#_combinación_de_tablas_con_left_join">7.3. Combinación de tablas con LEFT JOIN</a></li>
+<li><a href="#_combinación_de_tablas_con_producto_cartesiano">Combinación de tablas con producto cartesiano</a></li>
+<li><a href="#_combinación_de_tablas_con_inner_join">Combinación de tablas con INNER JOIN</a></li>
+<li><a href="#_combinación_de_tablas_con_left_join">Combinación de tablas con LEFT JOIN</a></li>
 </ul>
 </li>
-<li><a href="#_uso_de_alias_para_tablas">8. Uso de alias para tablas</a></li>
-<li><a href="#_subconsultas">9. Subconsultas</a>
+<li><a href="#_uso_de_alias_para_tablas">Uso de alias para tablas</a></li>
+<li><a href="#_subconsultas">Subconsultas</a>
 <ul class="sectlevel2">
-<li><a href="#_los_operadores_all_y_any">9.1. Los operadores ALL y ANY</a></li>
-<li><a href="#_subconsultas_en_from">9.2. Subconsultas en FROM</a></li>
+<li><a href="#_los_operadores_all_y_any">Los operadores ALL y ANY</a></li>
+<li><a href="#_subconsultas_en_from">Subconsultas en FROM</a></li>
 </ul>
 </li>
-<li><a href="#_inserción_modificación_y_eliminación_de_registros">10. Inserción, modificación y eliminación de registros</a>
+<li><a href="#_inserción_modificación_y_eliminación_de_registros">Inserción, modificación y eliminación de registros</a>
 <ul class="sectlevel2">
-<li><a href="#_uso_básico_de_insert_introducción_de_todos_los_valores">10.1. Uso básico de INSERT (Introducción de todos los valores)</a></li>
-<li><a href="#_uso_de_insert_para_añadir_filas_incompletas_no_se_introducen_todos_los_valores">10.2. Uso de INSERT para añadir filas incompletas (No se introducen todos los valores)</a></li>
-<li><a href="#_actualización_de_registros_con_update">10.3. Actualización de registros con UPDATE</a></li>
-<li><a href="#_eliminación_de_registros_con_delete">10.4. Eliminación de registros con DELETE</a></li>
+<li><a href="#_uso_básico_de_insert_introducción_de_todos_los_valores">Uso básico de INSERT (Introducción de todos los valores)</a></li>
+<li><a href="#_uso_de_insert_para_añadir_filas_incompletas_no_se_introducen_todos_los_valores">Uso de INSERT para añadir filas incompletas (No se introducen todos los valores)</a></li>
+<li><a href="#_actualización_de_registros_con_update">Actualización de registros con UPDATE</a></li>
+<li><a href="#_eliminación_de_registros_con_delete">Eliminación de registros con DELETE</a></li>
 </ul>
 </li>
-<li><a href="#_vistas">11. Vistas</a></li>
+<li><a href="#_vistas">Vistas</a></li>
+<li><a href="#_licencia">Licencia</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_introducción">1. Introducción</h2>
+<h2 id="_introducción">Introducción</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -512,7 +513,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_usos">2. Usos</h2>
+<h2 id="_usos">Usos</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -536,7 +537,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sintaxis_básica">3. Sintaxis básica</h2>
+<h2 id="_sintaxis_básica">Sintaxis básica</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -548,7 +549,7 @@ WHERE CONDICION</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_operaciones_de_consulta_sencillas_para_el_filtrado_de_filas_y_columnas">4. Operaciones de consulta sencillas para el filtrado de filas y columnas</h2>
+<h2 id="_operaciones_de_consulta_sencillas_para_el_filtrado_de_filas_y_columnas">Operaciones de consulta sencillas para el filtrado de filas y columnas</h2>
 <div class="sectionbody">
 <div class="exampleblock">
 <div class="title">Example 1. Mostrar todos los empleados</div>
@@ -906,9 +907,9 @@ FROM Empleado;</code></pre>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_consultas_con_varias_condiciones">4.1. Consultas con varias condiciones</h3>
+<h3 id="_consultas_con_varias_condiciones">Consultas con varias condiciones</h3>
 <div class="sect3">
-<h4 id="_el_operador_lógico_and">4.1.1. El operador lógico AND</h4>
+<h4 id="_el_operador_lógico_and">El operador lógico AND</h4>
 <div class="exampleblock">
 <div class="title">Example 4. Mostrar las filas de todos los empleados con empleo <em>Vendedor</em> y complemento de al menos 500 EUR.</div>
 <div class="content">
@@ -1009,7 +1010,7 @@ WHERE empleo = 'Vendedor' AND complemento &gt;= 500;</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_el_operador_lógico_or">4.1.2. El operador lógico OR</h4>
+<h4 id="_el_operador_lógico_or">El operador lógico OR</h4>
 <div class="exampleblock">
 <div class="title">Example 6. Mostrar todas las filas de los empleados que tengan empleo de Vendedor, Directivo u Ordenanza</div>
 <div class="content">
@@ -1162,7 +1163,7 @@ WHERE empleo = 'Vendedor' OR empleo = 'Directivo' OR empleo = 'Ordenanza';</code
 </div>
 </div>
 <div class="sect2">
-<h3 id="_el_operador_lógico_in_y_búsqueda_aproximada">4.2. El operador lógico IN y búsqueda aproximada</h3>
+<h3 id="_el_operador_lógico_in_y_búsqueda_aproximada">El operador lógico IN y búsqueda aproximada</h3>
 <div class="exampleblock">
 <div class="title">Example 7. Uso del operador IN para mostrar todas las filas de los empleados que tengan empleo de Vendedor, Directivo u Ordenanza</div>
 <div class="content">
@@ -1462,7 +1463,7 @@ WHERE empleo LIKE 'Direct%';</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_manejo_de_nulos">4.3. Manejo de nulos</h3>
+<h3 id="_manejo_de_nulos">Manejo de nulos</h3>
 <div class="exampleblock">
 <div class="title">Example 10. Mostrar las filas de todos los empleados que no tienen datos de complemento</div>
 <div class="content">
@@ -1683,7 +1684,7 @@ WHERE complemento IS NOT NULL;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_consultas_de_un_rango_de_valores">4.4. Consultas de un rango de valores</h3>
+<h3 id="_consultas_de_un_rango_de_valores">Consultas de un rango de valores</h3>
 <div class="exampleblock">
 <div class="title">Example 12. Mostrar las filas de todos los empleados que tienen sueldo mayor o igual que 2000 y menor o igual que 3000</div>
 <div class="content">
@@ -1864,7 +1865,7 @@ WHERE sueldo BETWEEN 2000 AND 3000;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_uso_de_expresiones_en_select">4.5. Uso de expresiones en SELECT</h3>
+<h3 id="_uso_de_expresiones_en_select">Uso de expresiones en SELECT</h3>
 <div class="exampleblock">
 <div class="title">Example 14. Mostrar nombre y la suma de sueldo y complemento de todos los empleados</div>
 <div class="content">
@@ -2166,7 +2167,7 @@ FROM Empleado;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_renombrado_de_columnas">4.6. Renombrado de columnas</h3>
+<h3 id="_renombrado_de_columnas">Renombrado de columnas</h3>
 <div class="exampleblock">
 <div class="title">Example 17. Mostrar nombre, sueldo, complemento y sueldo total de todos los empleados considerando como 0 los complementos nulos.</div>
 <div class="content">
@@ -2285,7 +2286,7 @@ FROM Empleado;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_manejo_de_fechas">5. Manejo de fechas</h2>
+<h2 id="_manejo_de_fechas">Manejo de fechas</h2>
 <div class="sectionbody">
 <div class="exampleblock">
 <div class="title">Example 18. Mostrar todas las filas de los empleados que se incorporaron a partir del 1 de enero de 2002</div>
@@ -2357,7 +2358,7 @@ WHERE fechaEntrada &gt;= '2002-01-01';</code></pre>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_funciones_para_el_manejo_de_fechas">5.1. Funciones para el manejo de fechas</h3>
+<h3 id="_funciones_para_el_manejo_de_fechas">Funciones para el manejo de fechas</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -3041,7 +3042,7 @@ FROM Empleado;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_eliminación_de_duplicados">5.2. Eliminación de duplicados</h3>
+<h3 id="_eliminación_de_duplicados">Eliminación de duplicados</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -3097,7 +3098,7 @@ FROM Empleado;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_ordenación_y_limitación_de_resultados">5.3. Ordenación y limitación de resultados</h3>
+<h3 id="_ordenación_y_limitación_de_resultados">Ordenación y limitación de resultados</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -3510,7 +3511,7 @@ LIMIT 3;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_funciones_de_agregación">5.4. Funciones de agregación</h3>
+<h3 id="_funciones_de_agregación">Funciones de agregación</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -3859,7 +3860,7 @@ FROM Empleado;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_agregación_de_resultados">6. Agregación de resultados</h2>
+<h2 id="_agregación_de_resultados">Agregación de resultados</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -4145,10 +4146,10 @@ HAVING COUNT(*) &gt; 3</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_combinación_de_tablas">7. Combinación de tablas</h2>
+<h2 id="_combinación_de_tablas">Combinación de tablas</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_combinación_de_tablas_con_producto_cartesiano">7.1. Combinación de tablas con producto cartesiano</h3>
+<h3 id="_combinación_de_tablas_con_producto_cartesiano">Combinación de tablas con producto cartesiano</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -6212,7 +6213,7 @@ HAVING AVG(sueldo) &gt; 2000;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_combinación_de_tablas_con_inner_join">7.2. Combinación de tablas con INNER JOIN</h3>
+<h3 id="_combinación_de_tablas_con_inner_join">Combinación de tablas con INNER JOIN</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -6304,7 +6305,7 @@ WHERE Departamento.nombre = 'Contabilidad';</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_combinación_de_tablas_con_left_join">7.3. Combinación de tablas con LEFT JOIN</h3>
+<h3 id="_combinación_de_tablas_con_left_join">Combinación de tablas con LEFT JOIN</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -6421,7 +6422,7 @@ GROUP BY Departamento.nombre;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_uso_de_alias_para_tablas">8. Uso de alias para tablas</h2>
+<h2 id="_uso_de_alias_para_tablas">Uso de alias para tablas</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -6487,7 +6488,7 @@ GROUP BY D.nombre;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_subconsultas">9. Subconsultas</h2>
+<h2 id="_subconsultas">Subconsultas</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -6616,7 +6617,7 @@ ORDER BY sueldo DESC;</code></pre>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_los_operadores_all_y_any">9.1. Los operadores ALL y ANY</h3>
+<h3 id="_los_operadores_all_y_any">Los operadores ALL y ANY</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -6719,7 +6720,7 @@ ORDER BY sueldo DESC;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_subconsultas_en_from">9.2. Subconsultas en FROM</h3>
+<h3 id="_subconsultas_en_from">Subconsultas en FROM</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -6796,10 +6797,10 @@ WHERE sueldo = maximo</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_inserción_modificación_y_eliminación_de_registros">10. Inserción, modificación y eliminación de registros</h2>
+<h2 id="_inserción_modificación_y_eliminación_de_registros">Inserción, modificación y eliminación de registros</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_uso_básico_de_insert_introducción_de_todos_los_valores">10.1. Uso básico de INSERT (Introducción de todos los valores)</h3>
+<h3 id="_uso_básico_de_insert_introducción_de_todos_los_valores">Uso básico de INSERT (Introducción de todos los valores)</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-sql" data-lang="sql">INSERT INTO tabla
@@ -6900,7 +6901,7 @@ WHERE departamento = 'Operaciones';</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_uso_de_insert_para_añadir_filas_incompletas_no_se_introducen_todos_los_valores">10.2. Uso de INSERT para añadir filas incompletas (No se introducen todos los valores)</h3>
+<h3 id="_uso_de_insert_para_añadir_filas_incompletas_no_se_introducen_todos_los_valores">Uso de INSERT para añadir filas incompletas (No se introducen todos los valores)</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-sql" data-lang="sql">INSERT INTO tabla(columna1, ..., columna m)
@@ -7000,7 +7001,7 @@ INSERT INTO Empleado(numero, nombre, empleo, jefe, fechaEntrada, sueldo, numeroD
 </table>
 </div>
 <div class="sect2">
-<h3 id="_actualización_de_registros_con_update">10.3. Actualización de registros con UPDATE</h3>
+<h3 id="_actualización_de_registros_con_update">Actualización de registros con UPDATE</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-sql" data-lang="sql">UPDATE tabla
@@ -7102,7 +7103,7 @@ WHERE numero = 8003;</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_eliminación_de_registros_con_delete">10.4. Eliminación de registros con DELETE</h3>
+<h3 id="_eliminación_de_registros_con_delete">Eliminación de registros con DELETE</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-sql" data-lang="sql">DELETE
@@ -7250,7 +7251,7 @@ WHERE numeroDepartamento = 40;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_vistas">11. Vistas</h2>
+<h2 id="_vistas">Vistas</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -7360,10 +7361,24 @@ GROUP BY departamento;</code></pre>
 </table>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_licencia">Licencia</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Licencia CC BY-NC-ND 4.0</p>
+</div>
+<div class="paragraph">
+<p>Copyright (c) 2025 [Manuel Torres - Departamento de Informática - Universidad de Almería]</p>
+</div>
+<div class="paragraph">
+<p>Este proyecto está licenciado bajo la Licencia CC BY-NC-ND 4.0. Esto significa que puedes compartir el proyecto siempre que cites al autor, no lo uses para fines comerciales y no realices obras derivadas.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-29 18:56:58 +0100
+Last updated 2025-11-29 21:05:00 +0100
 </div>
 </div>
 </body>

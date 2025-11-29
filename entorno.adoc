@@ -1,10 +1,39 @@
 = Bases de datos para Ciencia de datos - Entorno de trabajo
-Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres
-:doctype: article
+Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres <mtorres@ual.es>
+////
+NO CAMBIAR!!
+Codificación, idioma, tabla de contenidos, tipo de documento
+////
 :encoding: utf-8
-:lang: en
-:toc: left
+:lang: es
+:toc: right
+:toc-title: Tabla de contenidos
+:doctype: book
+:linkattrs:
+
+// NO CAMBIAR!! (Entrar en modo no numerado de apartados)
+:numbered!: 
+
+////
+COLOCA A CONTINUACION EL RESUMEN
+////
+[abstract,window="_blank"]
+== Resumen
+El entorno de trabajo para este curso se basa en Jupyter Notebooks y un servidor de bases de datos MySQL. Jupyter Notebooks es una herramienta interactiva que permite combinar código, texto y visualizaciones en un solo documento, facilitando el aprendizaje práctico. MySQL es un sistema gestor de bases de datos relacional ampliamente utilizado que soporta SQL, el lenguaje estándar para la gestión y manipulación de bases de datos. En este tutorial, se describen los pasos necesarios para configurar este entorno, incluyendo la instalación de Jupyter y las extensiones necesarias para ejecutar SQL, así como la configuración de un servidor MySQL, ya sea localmente o mediante un servicio en la nube como Aiven.
+
+////
+COLOCA A CONTINUACION LOS OBJETIVOS
+////
+.Objetivos
+* Configurar un entorno de trabajo basado en Jupyter Notebooks y MySQL.
+* Crear una instancia de MySQL en Aiven.
+* Conectar Jupyter Notebooks a un servidor de bases de datos MySQL.
+
+
+// Entrar en modo numerado de apartados
 :numbered:
+
+== Introducción
 
 Para el desarrollo práctico de este módulo usaremos un entorno de trabajo basado en Jupyter Notebooks y un servidor de bases de datos. El servidor de bases de datos podría ser cualquier sistema gestor de bases de datos relacional (RDBMS) que soporte SQL, como PostgreSQL, SQLite, Oracle, SQL Server,
 pero en este módulo usaremos MySQL.
@@ -80,3 +109,11 @@ git clone https://github.com/tu_usuario/tu_repositorio.git
 ```
 
 Si prefieres descargar los archivos directamente, ve a la página del repositorio en GitHub, haz clic en el botón `Code` y selecciona `Download ZIP`. Luego, descomprime el archivo ZIP en tu máquina local. Una vez que hayas clonado o descargado el repositorio, sobre el directorio del repositorio, lanza Jupyter Notebooks y abre los notebooks del curso para comenzar a trabajar con ellos.
+
+## Licencia
+
+Licencia CC BY-NC-ND 4.0
+
+Copyright (c) 2025 [Manuel Torres - Departamento de Informática - Universidad de Almería]
+
+Este proyecto está licenciado bajo la Licencia CC BY-NC-ND 4.0. Esto significa que puedes compartir el proyecto siempre que cites al autor, no lo uses para fines comerciales y no realices obras derivadas.

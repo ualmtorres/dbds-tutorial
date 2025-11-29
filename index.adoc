@@ -1,9 +1,14 @@
 = Bases de datos para Ciencia de datos (2 ECTS)
-Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres
-:doctype: article
+Máster de Formación permanente en Ciencia de Datos y Matemática computacional. Universidad de Almería - Manuel Torres <mtorres@ual.es>
+////
+NO CAMBIAR!!
+Codificación, idioma, tabla de contenidos, tipo de documento
+////
 :encoding: utf-8
-:lang: en
-:numbered:
+:lang: es
+:toc: right
+:toc-title: Tabla de contenidos
+:doctype: book
 :linkattrs:
 
 https://www2.ual.es/cdtime/2025/07/24/nuevo-master-de-formacion-permanente-en-ciencia-de-datos-y-matematica-computacional/[Web oficial]
@@ -50,3 +55,11 @@ Este curso proporciona una introducción a las bases de datos relacionales y al 
     ** link:tables/Tienda/Donde.csv[Datos de Tiendas]
     ** link:tables/Tienda/Que.csv[Datos de Productos]
     ** link:tables/Tienda/Cuando.csv[Datos de Tiempo]
+
+== Licencia
+
+Licencia CC BY-NC-ND 4.0
+
+Copyright (c) 2025 [Manuel Torres - Departamento de Informática - Universidad de Almería]
+
+Este proyecto está licenciado bajo la Licencia CC BY-NC-ND 4.0. Esto significa que puedes compartir el proyecto siempre que cites al autor, no lo uses para fines comerciales y no realices obras derivadas.
