@@ -448,13 +448,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introducción">1. Introducción</a></li>
 <li><a href="#_configuración_del_entorno_de_trabajo">2. Configuración del entorno de trabajo</a>
 <ul class="sectlevel2">
-<li><a href="#_configuración_del_servidor_de_bases_de_datos_mysql">2.1. Configuración del servidor de bases de datos MySQL</a></li>
-<li><a href="#_configuración_de_jupyter_notebooks">2.2. Configuración de Jupyter Notebooks</a></li>
-<li><a href="#_mysql_workbench_opcional">2.3. MySQL Workbench (opcional)</a></li>
+<li><a href="#_configuración_de_un_entorno_de_trabajo_online">2.1. Configuración de un entorno de trabajo online</a></li>
+<li><a href="#_configuración_de_un_entorno_de_trabajo_local">2.2. Configuración de un entorno de trabajo local</a></li>
+<li><a href="#_configuración_de_un_entorno_de_trabajo_híbrido">2.3. Configuración de un entorno de trabajo híbrido</a></li>
+<li><a href="#_mysql_workbench_opcional">2.4. MySQL Workbench (opcional)</a></li>
 </ul>
 </li>
-<li><a href="#_descarga_de_los_notebooks_del_curso">3. Descarga de los notebooks del curso</a></li>
-<li><a href="#_licencia">4. Licencia</a></li>
+<li><a href="#_conexión_de_jupyter_notebook_a_mysql">3. Conexión de Jupyter Notebook a MySQL</a></li>
+<li><a href="#_uso_de_los_notebooks_del_curso">4. Uso de los notebooks del curso</a>
+<ul class="sectlevel2">
+<li><a href="#_uso_de_los_notebooks_en_un_entorno_online">4.1. Uso de los notebooks en un entorno online</a></li>
+<li><a href="#_uso_de_los_notebooks_en_un_entorno_local">4.2. Uso de los notebooks en un entorno local</a></li>
+</ul>
+</li>
+<li><a href="#_licencia">5. Licencia</a></li>
 </ul>
 </div>
 </div>
@@ -463,19 +470,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_resumen">Resumen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>El entorno de trabajo para este curso se basa en Jupyter Notebooks y un servidor de bases de datos MySQL. Jupyter Notebooks es una herramienta interactiva que permite combinar código, texto y visualizaciones en un solo documento, facilitando el aprendizaje práctico. MySQL es un sistema gestor de bases de datos relacional ampliamente utilizado que soporta SQL, el lenguaje estándar para la gestión y manipulación de bases de datos. En este tutorial, se describen los pasos necesarios para configurar este entorno, incluyendo la instalación de Jupyter y las extensiones necesarias para ejecutar SQL, así como la configuración de un servidor MySQL, ya sea localmente o mediante un servicio en la nube como Aiven.</p>
+<p>El entorno de trabajo para este curso se basa en Jupyter Notebook y un servidor de bases de datos MySQL. Jupyter Notebook es una herramienta interactiva que permite combinar código, texto y visualizaciones en un solo documento, facilitando el aprendizaje práctico. MySQL es un sistema gestor de bases de datos relacional ampliamente utilizado que soporta SQL, el lenguaje estándar para la gestión y manipulación de bases de datos.</p>
 </div>
 <div class="ulist">
 <div class="title">Objetivos</div>
 <ul>
 <li>
-<p>Configurar un entorno de trabajo basado en Jupyter Notebooks y MySQL.</p>
+<p>Configurar un entorno de trabajo basado en Jupyter Notebook y MySQL.</p>
 </li>
 <li>
 <p>Crear una instancia de MySQL en Aiven.</p>
 </li>
 <li>
-<p>Conectar Jupyter Notebooks a un servidor de bases de datos MySQL.</p>
+<p>Conectar Jupyter Notebook a un servidor de bases de datos MySQL.</p>
 </li>
 </ul>
 </div>
@@ -485,11 +492,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_introducción">1. Introducción</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Para el desarrollo práctico de este módulo usaremos un entorno de trabajo basado en Jupyter Notebooks y un servidor de bases de datos. El servidor de bases de datos podría ser cualquier sistema gestor de bases de datos relacional (RDBMS) que soporte SQL, como PostgreSQL, SQLite, Oracle, SQL Server,
+<p>Para el desarrollo práctico de este módulo usaremos un entorno de trabajo basado en Jupyter Notebook y un servidor de bases de datos. El servidor de bases de datos podría ser cualquier sistema gestor de bases de datos relacional (RDBMS) que soporte SQL, como PostgreSQL, SQLite, Oracle, SQL Server,
 pero en este módulo usaremos MySQL.</p>
 </div>
 <div class="paragraph">
-<p>Por otro lado, Jupyter Notebooks es un entorno de trabajo interactivo que permite combinar código ejecutable, texto enriquecido, ecuaciones matemáticas, visualizaciones e imágenes en un único documento. Este entorno es muy útil para la enseñanza y el aprendizaje, ya que permite a los estudiantes experimentar con el código y ver los resultados de inmediato. Para usar Jupyter Notebooks con SQL, utilizaremos la extensión <code>Jupyter-SQL</code>, que permite ejecutar consultas SQL directamente desde las celdas del notebook, y <code>PyMySQL</code>, que es un conector de Python para MySQL.</p>
+<p>Por otro lado, Jupyter Notebook es un entorno de trabajo interactivo que permite combinar código ejecutable, texto enriquecido, ecuaciones matemáticas, visualizaciones e imágenes en un único documento. Este entorno es muy útil para la enseñanza y el aprendizaje, ya que permite a los estudiantes experimentar con el código y ver los resultados de inmediato. Además, Jupyter Notebook es compatible con múltiples lenguajes de programación, incluyendo Python, R y Julia, lo que lo convierte en una herramienta versátil para la ciencia de datos.</p>
+</div>
+<div class="paragraph">
+<p>Existen varias formas de configurar este entorno de trabajo. Podemos instalar Jupyter Notebook y MySQL en nuestra máquina local, o podemos usar servicios en la nube que proporcionen estas herramientas ya configuradas. Incluso podemos usar servicios en la nube para el servidor de bases de datos y ejecutar Jupyter Notebook localmente o en la nube.</p>
 </div>
 </div>
 </div>
@@ -500,26 +510,28 @@ pero en este módulo usaremos MySQL.</p>
 <p>Para preparar el entorno de trabajo, sigue estos pasos.</p>
 </div>
 <div class="sect2">
-<h3 id="_configuración_del_servidor_de_bases_de_datos_mysql">2.1. Configuración del servidor de bases de datos MySQL</h3>
+<h3 id="_configuración_de_un_entorno_de_trabajo_online">2.1. Configuración de un entorno de trabajo online</h3>
 <div class="paragraph">
-<p>Para el desarrollo de las prácticas, puedes instalar MySQL en tu máquina local o usar un servicio de bases de datos en la nube.</p>
+<p>Si no se desea instalar nada en la máquina local, se puede usar un entorno de trabajo totalmente online. Esto implica usar un servicio en la nube para ejecutar Jupyter Notebooks y otro servicio en la nube para el servidor de bases de datos.</p>
 </div>
 <div class="paragraph">
-<p>Si decides instalar MySQL localmente, puedes descargarlo desde la página oficial de <a href="https://dev.mysql.com/downloads/mysql/">MySQL</a>: Sigue las instrucciones de instalación para tu sistema operativo. Durante la instalación, asegúrate de configurar una contraseña segura para el usuario <code>root</code>. También puedes crear un usuario específico para este curso con los permisos necesarios para crear y manipular bases de datos.</p>
+<p>Uno de los servicios más populares para ejecutar Jupyter Notebooks en la nube es <a href="https://colab.research.google.com/">Google Colab</a>. Google Colab es un servicio gratuito que permite ejecutar Jupyter Notebooks en la nube. Para usar Google Colab, solo se necesita una cuenta de Google. Se puede crear un nuevo notebook y comenzar a escribir código Python de inmediato. Google Colab ya tiene muchas bibliotecas de Python preinstaladas, lo que facilita el trabajo con datos y la realización de análisis. No obstante, Google Colab también permite instalar bibliotecas adicionales según sea necesario.</p>
 </div>
 <div class="paragraph">
-<p>Si prefieres usar un servicio en la nube, hay varias opciones disponibles, como Amazon RDS, Google Cloud SQL o Azure Database for MySQL. Estos servicios suelen ofrecer planes gratuitos con ciertas limitaciones que pueden ser suficientes para el desarrollo de las prácticas. Para el curso, se recomienda usar el servicio gratuito de bases de datos <a href="https://www.aiven.io">Aiven</a>. Aiven es una plataforma que ofrece servicios gestionados  en la nube, principalmente para bases de datos y tecnologías de streaming. Puedes registrarte en Aiven y crear una instancia gratuita de MySQL siguiendo las instrucciones en su sitio web.</p>
+<p>En cuanto a servicios de bases de datos en la nube,  existen varias opciones disponibles, como Amazon RDS, Google Cloud SQL o Azure Database for MySQL. Estos servicios suelen ofrecer planes gratuitos con ciertas limitaciones, pero pueden ser suficientes para el desarrollo de los ejercicios. Para el curso, se recomienda usar el servicio gratuito de bases de datos <a href="https://www.aiven.io">Aiven</a>. Aiven es una plataforma que ofrece servicios gestionados  en la nube, principalmente para bases de datos y tecnologías de streaming. Puedes registrarte en Aiven y crear una instancia gratuita de MySQL siguiendo las instrucciones en su sitio web.</p>
 </div>
+<div class="sect3">
+<h4 id="_configuración_del_servidor_de_bases_de_datos_mysql">2.1.1. Configuración del servidor de bases de datos MySQL</h4>
 <div class="paragraph">
 <p>Para crear una instancia gratuita de MySQL en Aiven:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Regístrate en Aiven: <a href="https://www.aiven.io">Crea una cuenta</a> si no tienes una.</p>
+<p>Registrarse en Aiven: <a href="https://www.aiven.io">Crear una cuenta</a> si no se tiene una.</p>
 </li>
 <li>
-<p>Crea un proyecto (p.e. <code>dbds</code>, de <em>Databases for Data Science</em>): Una vez que hayas iniciado sesión, crea un nuevo proyecto desde el panel de control. Los proyectos te permiten organizar tus servicios.</p>
+<p>Crear un proyecto (p.e. <code>dbds</code>, de <em>Databases for Data Science</em>): Una vez iniciada la sesión, crear un nuevo proyecto desde el panel de control. Los proyectos permiten organizar servicios y recursos relacionados, como bases de datos y aplicaciones.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/aiven_services.png" alt="Servicios disponibles en Aiven">
@@ -527,7 +539,7 @@ pero en este módulo usaremos MySQL.</p>
 </div>
 </li>
 <li>
-<p>Crea una instancia de MySQL: Desde el proyecto, seleccionar <code>Services</code> en el menú lateral y selecccionar el servicio <code>MySQL</code> en la sección <code>Create new service</code>. Configurar los detalles de la instancia, como el nombre, la región y el plan. Asegúrate de seleccionar el plan gratuito. En nuestro caso, seleccionaremos:</p>
+<p>Crear una instancia de MySQL: Desde el proyecto, seleccionar <code>Services</code> en el menú lateral y selecccionar el servicio <code>MySQL</code> en la sección <code>Create new service</code>. Configurar los detalles de la instancia, como el nombre, la región y el plan. Asegúrate de seleccionar el plan gratuito. En este caso, seleccionaremos:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -540,7 +552,7 @@ pero en este módulo usaremos MySQL.</p>
 <p>Plan: <code>Free-1-gb</code></p>
 </li>
 <li>
-<p>Service name: Dejaremos el nombre predeterminado</p>
+<p>Service name: Se puede usar el nombre predeterminado</p>
 </li>
 </ul>
 </div>
@@ -548,7 +560,7 @@ pero en este módulo usaremos MySQL.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>Tras crear la instancia, Aiven te proporcionará los detalles de conexión, como el host, el puerto, el nombre de usuario y la contraseña. También proporciona la cadena de conexión completa (URI) que puedes usar para conectarte a la base de datos desde Jupyter Notebooks. Guarda esta información, ya que la necesitarás para conectarte a la base de datos desde Jupyter Notebooks.</p>
+<p>Tras crear la instancia, Aiven proporcionará los detalles de conexión, como el host, el puerto, el nombre de usuario y la contraseña. <strong>También proporciona la cadena de conexión completa (URI) que puede usarse para establecer la conexión a la base de datos desde Jupyter Notebook. Hay que guardar esta información, ya que se necesitará para crear la conexión a la base de datos desde Jupyter Notebook.</strong></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -556,10 +568,38 @@ pero en este módulo usaremos MySQL.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configuración_de_jupyter_notebooks">2.2. Configuración de Jupyter Notebooks</h3>
+<div class="sect3">
+<h4 id="_inicio_de_sesión_en_google_colab_y_configuración_de_jupyter_notebook">2.1.2. Inicio de sesión en Google Colab y configuración de Jupyter Notebook</h4>
 <div class="paragraph">
-<p>Para usar Jupyter Notebooks con SQL, necesitas instalar Jupyter y las extensiones necesarias. Puedes hacerlo usando <code>pip</code>, el gestor de paquetes de Python. Abre una terminal y ejecuta los siguientes comandos:</p>
+<p>Para usar Google Colab, seguir estos pasos:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Acceder a Google Colab: Ir a <a href="https://colab.google/">Google Colab</a> e iniciar sesión con una cuenta de Google.</p>
+</li>
+<li>
+<p>Para una introducción a Google Colab, desde la página principal de Google Colab, hacer clic en <code>Open Colab</code> para ver una introducción rápida a las características y funcionalidades de Google Colab.</p>
+</li>
+<li>
+<p>Para crear un nuevo notebook, desde la página principal de Google Colab, crear un nuevo notebook haciendo clic en <code>New notebook</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuración_de_un_entorno_de_trabajo_local">2.2. Configuración de un entorno de trabajo local</h3>
+<div class="paragraph">
+<p>Si se prefiere trabajar en un entorno local, se puede instalar Jupyter Notebook y MySQL en la máquina local. A continuación, se describen los pasos para configurar este entorno de trabajo.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuración_de_jupyter_notebook">2.2.1. Configuración de Jupyter Notebook</h4>
+<div class="paragraph">
+<p>Se parte de la base de que Python está instalado. Si no es así, descargar desde <a href="https://www.python.org/downloads/">la página oficial de Python</a> e instalarlo siguiendo las instrucciones en función del sistema operativo.</p>
+</div>
+<div class="paragraph">
+<p>Para usar Jupyter Notebook con SQL, es necesario instalar Jupyter y las extensiones necesarias. Se puede hacer usando <code>pip</code>, el gestor de paquetes de Python. En una terminal y se ejecutan los siguientes comandos:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -574,7 +614,7 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 <p>Jupyter Notebook</p>
 </li>
 <li>
-<p>Extensión para ejecutar SQL en Jupyter Notebooks</p>
+<p>Extensión para ejecutar SQL en Jupyter Notebook</p>
 </li>
 <li>
 <p>Conector de Python para MySQL</p>
@@ -582,7 +622,7 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>Una vez que hayas instalado Jupyter y las extensiones necesarias, puedes iniciar Jupyter Notebooks ejecutando el siguiente comando en la terminal:</p>
+<p>Una vez instalado Jupyter y las extensiones necesarias, se puede iniciar Jupyter Notebook ejecutando el siguiente comando en la terminal:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -590,31 +630,183 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Esto abrirá Jupyter Notebooks en tu navegador web. En la sección siguiente se muestra cómo descargar los notebooks del curso y comenzar a trabajar con ellos.</p>
+<p>Esto abrirá Jupyter Notebook en un navegador web. En la sección siguiente se muestra cómo descargar los notebooks del curso y comenzar a trabajar con ellos.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuración_de_mysql_local">2.2.2. Configuración de MySQL local</h4>
+<div class="paragraph">
+<p>Descargar MySQL desde la página oficial de <a href="https://dev.mysql.com/downloads/mysql/">MySQL</a>: Seguir las instrucciones de instalación para el sistema operativo del equipo de trabajo local. Durante la instalación, asegurarse de configurar una contraseña segura para el usuario <code>root</code>. También se puede crear un usuario específico para este curso con los permisos necesarios para crear y manipular bases de datos.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mysql_workbench_opcional">2.3. MySQL Workbench (opcional)</h3>
+<h3 id="_configuración_de_un_entorno_de_trabajo_híbrido">2.3. Configuración de un entorno de trabajo híbrido</h3>
 <div class="paragraph">
-<p>MySQL Workbench es una herramienta visual para diseñar, modelar, generar y gestionar bases de datos MySQL. Aunque no es estrictamente necesario para este curso, puede ser útil para visualizar y gestionar la base de datos de manera más intuitiva. Además, cuenta con herramientas de modelado y de ingeniería inversa que permiten crear diagramas entidad-relación (ER) a partir de una base de datos existente. Puedes <a href="https://dev.mysql.com/downloads/workbench/">descargar MySQL Workbench desde la página oficial</a>.</p>
+<p>Otra opción es usar un entorno de trabajo híbrido, donde Jupyter Notebook se ejecuta localmente y el servidor de bases de datos está en la nube. En este caso, se puede seguir la configuración de Jupyter Notebook local descrita anteriormente y usar Aiven para el servidor de bases de datos MySQL.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mysql_workbench_opcional">2.4. MySQL Workbench (opcional)</h3>
+<div class="paragraph">
+<p>MySQL Workbench es una herramienta visual para diseñar, modelar, generar y gestionar bases de datos MySQL. Aunque no es estrictamente necesario para este curso, puede ser útil para visualizar y gestionar la base de datos de manera más intuitiva. Además, cuenta con herramientas de modelado y de ingeniería inversa que permiten crear diagramas entidad-relación (ER) a partir de una base de datos existente. Se puede <a href="https://dev.mysql.com/downloads/workbench/">descargar MySQL Workbench desde la página oficial</a>.</p>
 </div>
 <div class="paragraph">
-<p>En MySQL Workbench, puedes conectarte a tu instancia de MySQL en Aiven utilizando los detalles de conexión proporcionados anteriormente. Una vez conectado, puedes explorar las bases de datos, ejecutar consultas SQL y utilizar las herramientas de modelado para crear diagramas ER. MySQL Workbench permite exportar los diagramas ER en varios formatos, como PDF o imágenes, lo que puede ser útil para documentar el diseño de la base de datos.</p>
+<p>En MySQL Workbench, podemos establecer una conexión con la instancia MySQL de Aiven utilizando los detalles de conexión proporcionados anteriormente, la URI de conexión. Una vez establecida la conexión, se pueden explorar las bases de datos, ejecutar consultas SQL y utilizar las herramientas de modelado para crear diagramas ER. MySQL Workbench permite exportar los diagramas ER en varios formatos, como PDF o imágenes, lo que puede ser útil para documentar el diseño de la base de datos.</p>
 </div>
 <div class="paragraph">
-<p>Además, en este curso se proporcionan modelos de bases de datos en formato <code>.mwb</code> (MySQL Workbench) que puedes abrir directamente en MySQL Workbench para visualizar y modificar los diagramas ER. Asimismo, se proporcionan scripts de inicialización para varias bases de datos de ejemplo. Puedes usar MySQL Workbench para ejecutar estos scripts y crear las bases de datos en tu instancia de MySQL. Luego, puedes utilizar Jupyter Notebooks para realizar consultas SQL y analizar los datos en estas bases de datos.</p>
+<p>Además, en este curso se proporcionan modelos de bases de datos en formato <code>.mwb</code> (MySQL Workbench), que pueden abrirse directamente en MySQL Workbench para visualizar y modificar los diagramas ER. Asimismo, se proporcionan scripts de inicialización para varias bases de datos de ejemplo. Se puede usar MySQL Workbench para ejecutar estos scripts y crear las bases de datos en la instancia de MySQL. Luego, se puede utilizar Jupyter Notebook para realizar consultas SQL y analizar los datos en estas bases de datos.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_descarga_de_los_notebooks_del_curso">3. Descarga de los notebooks del curso</h2>
+<h2 id="_conexión_de_jupyter_notebook_a_mysql">3. Conexión de Jupyter Notebook a MySQL</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Los notebooks del curso están disponibles en el repositorio de GitHub del curso. Puedes clonar el repositorio usando <code>git</code> o descargar los archivos directamente desde la página web del repositorio.</p>
+<p>Para conectar Jupyter Notebook a una base de datos, se seguirá la notación de SQLAlchemy para la cadena de conexión (URI). Esta cadena de conexión especifica el tipo de base de datos, el controlador, el usuario, la contraseña, el host, el puerto y el nombre de la base de datos. Se construirá siguiendo el siguiente formato:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dialecto&gt;+&lt;controlador&gt;://&lt;usuario&gt;:&lt;contraseña&gt;@&lt;host&gt;:&lt;puerto&gt;/&lt;base_de_datos&gt;</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Para clonar el repositorio, abre una terminal y ejecuta el siguiente comando:</p>
+<p>donde:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&lt;dialecto&gt;</code>: Es el tipo de base de datos (por ejemplo, <code>mysql</code> para MySQL).</p>
+</li>
+<li>
+<p><code>&lt;controlador&gt;</code>: Es el controlador de la base de datos (por ejemplo, <code>pymysql</code> para MySQL).</p>
+</li>
+<li>
+<p><code>&lt;usuario&gt;</code>: Es el nombre de usuario para la conexión a la base de datos.</p>
+</li>
+<li>
+<p><code>&lt;contraseña&gt;</code>: Es la contraseña para la conexión a la base de datos.</p>
+</li>
+<li>
+<p><code>&lt;host&gt;</code>: Es la dirección del servidor de la base de datos.</p>
+</li>
+<li>
+<p><code>&lt;puerto&gt;</code>: Es el puerto en el que el servidor de la base de datos está escuchando.</p>
+</li>
+<li>
+<p><code>&lt;base_de_datos&gt;</code>: Es el nombre de la base de datos a la que se desea conectar.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A partir de la cadena de conexión (URI) proporcionada por Aiven al crear la instancia de MySQL, se puede construir la cadena de conexión para Jupyter Notebook. Basta con:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Reemplazar <code>mysql</code> por <code>mysql+pymysql</code> para especificar el controlador.</p>
+</li>
+<li>
+<p>Eliminar cualquier parámetro adicional que pueda estar presente en la URI proporcionada por Aiven, como opciones de SSL o configuraciones específicas del servicio. Esto es necesario porque Jupyter Notebook no las necesita para establecer la conexión básica. En este caso, eliminar todo lo que sigue al nombre de la base de datos (<code>?ssl-mode=REQUIRED</code>)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Si no se recuerda la cadena de conexión, se puede encontrar en el panel de control de Aiven, en la sección de detalles de la instancia de MySQL.</p>
+</div>
+<div class="paragraph">
+<p>La cadena de conexión resultante tendrá el siguiente formato:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>mysql+pymysql://avnadmin:xxxxxxx@mysql-202d8f80-dbds.b.aivencloud.com:28830/defaultdb</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Se ha de tener en cuenta que la contraseña y otros detalles de conexión son específicos de la instancia creada en Aiven. Por lo tanto, es importante usar los valores correctos proporcionados por Aiven al crear la instancia. Los valores proporcionados en este ejemplo son solo ilustrativos. Ese servidor de bases de datos ha sido eliminado y no está disponible.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Si la instancia de MySQL de Aiven se encuentra apagada, hay que iniciarla desde el panel de control de Aiven antes de intentar conectarse a ella desde Jupyter Notebook. Hay una opción para ello en opciones de <code>Action</code> de la instancia. Se recomienda comprobar que la instancia está en estado <code>Running</code> antes de proceder con la conexión.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/aiven_mysql_service_running.png" alt="Estado de la instancia de MySQL en Aiven">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_uso_de_los_notebooks_del_curso">4. Uso de los notebooks del curso</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Los notebooks del curso están disponibles en repositorios GitHub:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/entorno/dbbasics.ipynb">Notebook de prueba de concepto</a></p>
+</li>
+<li>
+<p><a href="https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/introduccion/sql.ipynb">Notebook de introducción a SQL</a></p>
+</li>
+<li>
+<p><a href="https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/ejercicios/ejercicios-sg.ipynb">Notebook de ejercicios de SQL</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Estos notebooks contienen el material didáctico y los ejercicios prácticos para el curso. Se pueden descargar los notebooks y abrirlos en Jupyter Notebook para comenzar a trabajar con ellos.</p>
+</div>
+<div class="sect2">
+<h3 id="_uso_de_los_notebooks_en_un_entorno_online">4.1. Uso de los notebooks en un entorno online</h3>
+<div class="paragraph">
+<p>Si se está usando un entorno de trabajo online como Google Colab, se pueden abrir los notebooks directamente desde GitHub. En Google Colab, hacer clic en <code>File</code> &#8594; <code>Open notebook</code> &#8594; <code>GitHub</code> y pegar la URL del repositorio para ver y abrir los notebooks disponibles. Una vez abierto el notebook, se puede ejecutar el código y trabajar con él directamente en Google Colab. Para guardar los cambios realizados en el notebook, se puede descargar el archivo <code>.ipynb</code> actualizado a la máquina local o guardarlo en Google Drive.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>También se puede hacer un fork del repositorio en la cuenta de GitHub personal y luego abrir el notebook desde el fork. Esto permite tener una copia personal del notebook en la cuenta de GitHub, facilitando la gestión de los cambios y versiones.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uso_de_los_notebooks_en_un_entorno_local">4.2. Uso de los notebooks en un entorno local</h3>
+<div class="paragraph">
+<p>Se pueden clonar los repositorios usando <code>git</code> o descargar los archivos directamente desde la página web de los repositorios.</p>
+</div>
+<div class="paragraph">
+<p>Para clonar un repositorio, desde una terminal ejecutar un comando como el siguiente:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -622,12 +814,27 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Si prefieres descargar los archivos directamente, ve a la página del repositorio en GitHub, haz clic en el botón <code>Code</code> y selecciona <code>Download ZIP</code>. Luego, descomprime el archivo ZIP en tu máquina local. Una vez que hayas clonado o descargado el repositorio, sobre el directorio del repositorio, lanza Jupyter Notebooks y abre los notebooks del curso para comenzar a trabajar con ellos.</p>
+<p>Si se prefiere descargar los archivos directamente, en la página del repositorio en GitHub, hacer clic en el botón <code>Code</code> y seleccionar <code>Download ZIP</code>. Luego, descomprimir el archivo ZIP en el equipo de trabajo local. Una vez que clonado o descargado el repositorio, sobre el directorio del repositorio, abrir Jupyter Notebook y abrir los notebooks del curso para comenzar a trabajar con ellos.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>También es posible abrir los notebooks directamente desde GitHub en Jupyter Notebook con la opción de <code>Abrir desde URL</code>. Para ello, copiar la URL del notebook en GitHub y pegarla en Jupyter Notebook para abrirlo directamente.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_licencia">4. Licencia</h2>
+<h2 id="_licencia">5. Licencia</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Licencia CC BY-NC-ND 4.0</p>
@@ -643,7 +850,7 @@ pip install PyMySQL <b class="conum">(3)</b></code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-29 21:04:48 +0100
+Last updated 2025-11-30 18:44:11 +0100
 </div>
 </div>
 </body>
