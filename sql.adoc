@@ -249,6 +249,69 @@ include::scripts/RRHH/AliasDeColumna.sql[]
 include::scripts/RRHH/AliasDeColumna.csv[]
 |===================================================
 
+=== Eliminación de duplicados
+
+[NOTE]
+====
+`DISTINCT` elimina los resultados duplicados tras la evaluación de una consulta.
+====
+
+.Mostrar los diferentes empleos que tienen los empleados almacenados.
+====
+[source, sql]
+include::scripts/RRHH/DISTINCT.sql[]
+====
+
+[format="csv",options="header"]
+|===================================================
+include::scripts/RRHH/DISTINCT.csv[]
+|===================================================
+
+=== Ordenación y limitación de resultados
+
+[NOTE]
+====
+La cláusula ORDER BY ordena los resultados de una consulta usando como criterios de ordenación la lista de columnas proporcionada.
+====
+
+.Mostrar todas las filas de empleados ordenadas por sueldo.
+====
+[source, sql]
+include::scripts/RRHH/ORDERBY.sql[]
+====
+
+[format="csv",options="header"]
+|===================================================
+include::scripts/RRHH/ORDERBY.csv[]
+|===================================================
+
+.Mostrar todas las filas de empleados ordenados por empleo y orden decreciente de sueldo.
+====
+[source, sql]
+include::scripts/RRHH/ORDERBYVariosCriterios.sql[]
+====
+
+[format="csv",options="header"]
+|===================================================
+include::scripts/RRHH/ORDERBYVariosCriterios.csv[]
+|===================================================
+
+[NOTE]
+====
+La cláusula LIMIT limita el número de filas devueltas al valor especificado.
+====
+
+.Mostrar las filas de los 3 empleados que tienen mayor sueldo
+====
+[source, sql]
+include::scripts/RRHH/LIMIT.sql[]
+====
+
+[format="csv",options="header"]
+|===================================================
+include::scripts/RRHH/LIMIT.csv[]
+|===================================================
+
 == Manejo de fechas
 
 .Mostrar todas las filas de los empleados que se incorporaron a partir del 1 de enero de 2002
@@ -357,69 +420,6 @@ include::scripts/RRHH/DATEFORMAT.sql[]
 [format="csv",options="header"]
 |===================================================
 include::scripts/RRHH/DATEFORMAT.csv[]
-|===================================================
-
-=== Eliminación de duplicados
-
-[NOTE]
-====
-`DISTINCT` elimina los resultados duplicados tras la evaluación de una consulta.
-====
-
-.Mostrar los diferentes empleos que tienen los empleados almacenados.
-====
-[source, sql]
-include::scripts/RRHH/DISTINCT.sql[]
-====
-
-[format="csv",options="header"]
-|===================================================
-include::scripts/RRHH/DISTINCT.csv[]
-|===================================================
-
-=== Ordenación y limitación de resultados
-
-[NOTE]
-====
-La cláusula ORDER BY ordena los resultados de una consulta usando como criterios de ordenación la lista de columnas proporcionada.
-====
-
-.Mostrar todas las filas de empleados ordenadas por sueldo.
-====
-[source, sql]
-include::scripts/RRHH/ORDERBY.sql[]
-====
-
-[format="csv",options="header"]
-|===================================================
-include::scripts/RRHH/ORDERBY.csv[]
-|===================================================
-
-.Mostrar todas las filas de empleados ordenados por empleo y orden decreciente de sueldo.
-====
-[source, sql]
-include::scripts/RRHH/ORDERBYVariosCriterios.sql[]
-====
-
-[format="csv",options="header"]
-|===================================================
-include::scripts/RRHH/ORDERBYVariosCriterios.csv[]
-|===================================================
-
-[NOTE]
-====
-La cláusula LIMIT limita el número de filas devueltas al valor especificado.
-====
-
-.Mostrar las filas de los 3 empleados que tienen mayor sueldo
-====
-[source, sql]
-include::scripts/RRHH/LIMIT.sql[]
-====
-
-[format="csv",options="header"]
-|===================================================
-include::scripts/RRHH/LIMIT.csv[]
 |===================================================
 
 === Funciones de agregación

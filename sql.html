@@ -455,13 +455,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_consultas_de_un_rango_de_valores">Consultas de un rango de valores</a></li>
 <li><a href="#_uso_de_expresiones_en_select">Uso de expresiones en SELECT</a></li>
 <li><a href="#_renombrado_de_columnas">Renombrado de columnas</a></li>
+<li><a href="#_eliminación_de_duplicados">Eliminación de duplicados</a></li>
+<li><a href="#_ordenación_y_limitación_de_resultados">Ordenación y limitación de resultados</a></li>
 </ul>
 </li>
 <li><a href="#_manejo_de_fechas">Manejo de fechas</a>
 <ul class="sectlevel2">
 <li><a href="#_funciones_para_el_manejo_de_fechas">Funciones para el manejo de fechas</a></li>
-<li><a href="#_eliminación_de_duplicados">Eliminación de duplicados</a></li>
-<li><a href="#_ordenación_y_limitación_de_resultados">Ordenación y limitación de resultados</a></li>
 <li><a href="#_funciones_de_agregación">Funciones de agregación</a></li>
 </ul>
 </li>
@@ -2283,764 +2283,6 @@ FROM Empleado;</code></pre>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_manejo_de_fechas">Manejo de fechas</h2>
-<div class="sectionbody">
-<div class="exampleblock">
-<div class="title">Example 18. Mostrar todas las filas de los empleados que se incorporaron a partir del 1 de enero de 2002</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
-SELECT *
-FROM Empleado
-WHERE fechaEntrada &gt;= '2002-01-01';</code></pre>
-</div>
-</div>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">numero</th>
-<th class="tableblock halign-left valign-top">nombre</th>
-<th class="tableblock halign-left valign-top">empleo</th>
-<th class="tableblock halign-left valign-top">jefe</th>
-<th class="tableblock halign-left valign-top">fechaEntrada</th>
-<th class="tableblock halign-left valign-top">sueldo</th>
-<th class="tableblock halign-left valign-top">complemento</th>
-<th class="tableblock halign-left valign-top">numeroDepartamento</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7876</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7934</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1300</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect2">
-<h3 id="_funciones_para_el_manejo_de_fechas">Funciones para el manejo de fechas</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>La función <code>YEAR()</code> aplicada a una fecha devuelve el año de la fecha en formato numérico.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="exampleblock">
-<div class="title">Example 19. Mostrar todas las filas de los empleados cuya fecha de entrada no sea del año 2000</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
-SELECT *
-FROM Empleado
-WHERE NOT YEAR(fechaEntrada) = 2000;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">numero</th>
-<th class="tableblock halign-left valign-top">nombre</th>
-<th class="tableblock halign-left valign-top">empleo</th>
-<th class="tableblock halign-left valign-top">jefe</th>
-<th class="tableblock halign-left valign-top">fechaEntrada</th>
-<th class="tableblock halign-left valign-top">sueldo</th>
-<th class="tableblock halign-left valign-top">complemento</th>
-<th class="tableblock halign-left valign-top">numeroDepartamento</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1600</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">300</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1250</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2975</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1250</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1400</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2850</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2450</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7876</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7900</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">950</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7934</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1300</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-</tr>
-</tbody>
-</table>
-<div class="exampleblock">
-<div class="title">Example 20. Mostrar todas las filas de los empleados cuya fecha de entrada no sea del año 2000 ni 2001</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
-SELECT *
-FROM Empleado
-WHERE NOT YEAR(fechaEntrada) IN (2000, 2001);</code></pre>
-</div>
-</div>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">numero</th>
-<th class="tableblock halign-left valign-top">nombre</th>
-<th class="tableblock halign-left valign-top">empleo</th>
-<th class="tableblock halign-left valign-top">jefe</th>
-<th class="tableblock halign-left valign-top">fechaEntrada</th>
-<th class="tableblock halign-left valign-top">sueldo</th>
-<th class="tableblock halign-left valign-top">complemento</th>
-<th class="tableblock halign-left valign-top">numeroDepartamento</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7876</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7934</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1300</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>La función <code>CURDATE()</code> devuelve la fecha actual.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="exampleblock">
-<div class="title">Example 21. Mostrar nombre, empleo, fecha actual, fecha de entrada y diferencia entre fecha actual y fecha de entrada</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
-SELECT nombre, empleo, CURDATE(), fechaEntrada, CURDATE() - fechaEntrada
-FROM Empleado;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Caution</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>La diferencia aritmética entre <code>CURDATE()</code> y la fecha de entrada devuelve un resultado anómalo. Usar en su lugar la función <code>DATEDIFF()</code>.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">nombre</th>
-<th class="tableblock halign-left valign-top">empleo</th>
-<th class="tableblock halign-left valign-top">CURDATE()</th>
-<th class="tableblock halign-left valign-top">fechaEntrada</th>
-<th class="tableblock halign-left valign-top">CURDATE() - fechaEntrada</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">169094</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">160091</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">160089</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159909</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159383</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159810</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159702</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">149102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159194</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159403</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">140199</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159108</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">159108</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">150188</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>La función <code>DATEDIFF()</code> devuelve la diferencia en días entre dos fechas.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="exampleblock">
-<div class="title">Example 22. Mostrar nombre, empleo y antigüedad en días de todos los empleados.</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
-SELECT nombre, empleo, DATEDIFF(CURDATE(), fechaEntrada) as antiguedad
-FROM Empleado;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">nombre</th>
-<th class="tableblock halign-left valign-top">empleo</th>
-<th class="tableblock halign-left valign-top">antiguedad</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5928</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5863</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5861</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5822</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5643</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5793</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5754</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5206</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5593</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5663</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5172</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5577</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5577</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5526</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>La función <code>DATE_FORMAT()</code> permite dar formato a un valor de tipo fecha. El formato se define en una cadena aplicando unos códigos de formato como los de la tabla siguiente.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Códigos de formato habituales para <code>DATEDIFF()</code></caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Código de formato</th>
-<th class="tableblock halign-left valign-top">Descripción</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%d</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Día del mes con dos dígitos</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%e</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Día del mes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%a</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre abreviado del día de la semana (Sun-Sat)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%W</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre del día de la semana (Sunday-Saturday)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%b</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre abreviado del mes (Jan-Dec)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%M</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre del mes (January-December)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%y</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Año con dos dígitos</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">%Y</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Año con cuatro dígitos</p></td>
-</tr>
-</tbody>
-</table>
-<div class="exampleblock">
-<div class="title">Example 23. Mostrar el nombre, empleo y feha de entrada de todos los empleados. La fecha de entrada se presentará con el día con dos dígitos, el mes abreviado y el año con cuatro dígitos.</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
-SELECT nombre, empleo, DATE_FORMAT(fechaEntrada, '%d %b %Y') AS fechaEntrada
-FROM Empleado;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">nombre</th>
-<th class="tableblock halign-left valign-top">empleo</th>
-<th class="tableblock halign-left valign-top">fechaEntrada</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17 Dec 2000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20 Feb 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">22 Feb 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">02 Apr 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">28 Sep 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">01 May 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">09 Jun 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">09 Dec 2002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17 Nov 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">08 Sep 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12 Jan 2003</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">03 Dec 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">03 Dec 2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">23 Jan 2002</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <div class="sect2">
 <h3 id="_eliminación_de_duplicados">Eliminación de duplicados</h3>
 <div class="admonitionblock note">
@@ -3058,7 +2300,7 @@ FROM Empleado;</code></pre>
 </table>
 </div>
 <div class="exampleblock">
-<div class="title">Example 24. Mostrar los diferentes empleos que tienen los empleados almacenados.</div>
+<div class="title">Example 18. Mostrar los diferentes empleos que tienen los empleados almacenados.</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3114,7 +2356,7 @@ FROM Empleado;</code></pre>
 </table>
 </div>
 <div class="exampleblock">
-<div class="title">Example 25. Mostrar todas las filas de empleados ordenadas por sueldo.</div>
+<div class="title">Example 19. Mostrar todas las filas de empleados ordenadas por sueldo.</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3293,7 +2535,7 @@ ORDER BY sueldo;</code></pre>
 </tbody>
 </table>
 <div class="exampleblock">
-<div class="title">Example 26. Mostrar todas las filas de empleados ordenados por empleo y orden decreciente de sueldo.</div>
+<div class="title">Example 20. Mostrar todas las filas de empleados ordenados por empleo y orden decreciente de sueldo.</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3486,7 +2728,7 @@ ORDER BY empleo, sueldo DESC;</code></pre>
 </table>
 </div>
 <div class="exampleblock">
-<div class="title">Example 27. Mostrar las filas de los 3 empleados que tienen mayor sueldo</div>
+<div class="title">Example 21. Mostrar las filas de los 3 empleados que tienen mayor sueldo</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3501,13 +2743,817 @@ LIMIT 3;</code></pre>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 100%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Unresolved directive in &lt;stdin&gt; - include::scripts/RRHH/LIMIT.csv[]</th>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
 </tr>
 </thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_manejo_de_fechas">Manejo de fechas</h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="title">Example 22. Mostrar todas las filas de los empleados que se incorporaron a partir del 1 de enero de 2002</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
+SELECT *
+FROM Empleado
+WHERE fechaEntrada &gt;= '2002-01-01';</code></pre>
+</div>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">numero</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fechaEntrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">numeroDepartamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7876</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7934</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1300</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_funciones_para_el_manejo_de_fechas">Funciones para el manejo de fechas</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La función <code>YEAR()</code> aplicada a una fecha devuelve el año de la fecha en formato numérico.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 23. Mostrar todas las filas de los empleados cuya fecha de entrada no sea del año 2000</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
+SELECT *
+FROM Empleado
+WHERE NOT YEAR(fechaEntrada) = 2000;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">numero</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fechaEntrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">numeroDepartamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7876</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7900</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">950</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7934</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1300</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="title">Example 24. Mostrar todas las filas de los empleados cuya fecha de entrada no sea del año 2000 ni 2001</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
+SELECT *
+FROM Empleado
+WHERE NOT YEAR(fechaEntrada) IN (2000, 2001);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">numero</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fechaEntrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">numeroDepartamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7876</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7934</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1300</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NULL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La función <code>CURDATE()</code> devuelve la fecha actual.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 25. Mostrar nombre, empleo, fecha actual, fecha de entrada y diferencia entre fecha actual y fecha de entrada</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
+SELECT nombre, empleo, CURDATE(), fechaEntrada, CURDATE() - fechaEntrada
+FROM Empleado;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La diferencia aritmética entre <code>CURDATE()</code> y la fecha de entrada devuelve un resultado anómalo. Usar en su lugar la función <code>DATEDIFF()</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">CURDATE()</th>
+<th class="tableblock halign-left valign-top">fechaEntrada</th>
+<th class="tableblock halign-left valign-top">CURDATE() - fechaEntrada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">169094</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">160091</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">160089</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159909</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159383</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159810</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159702</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">149102</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159194</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159403</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2003-01-12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">140199</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159108</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-12-03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">159108</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2017-03-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-01-23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">150188</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La función <code>DATEDIFF()</code> devuelve la diferencia en días entre dos fechas.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 26. Mostrar nombre, empleo y antigüedad en días de todos los empleados.</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
+SELECT nombre, empleo, DATEDIFF(CURDATE(), fechaEntrada) as antiguedad
+FROM Empleado;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">antiguedad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5928</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5863</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5861</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5822</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5643</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5793</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5754</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5206</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5593</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5663</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5172</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5577</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5577</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5526</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La función <code>DATE_FORMAT()</code> permite dar formato a un valor de tipo fecha. El formato se define en una cadena aplicando unos códigos de formato como los de la tabla siguiente.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Códigos de formato habituales para <code>DATEDIFF()</code></caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Código de formato</th>
+<th class="tableblock halign-left valign-top">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%d</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Día del mes con dos dígitos</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%e</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Día del mes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre abreviado del día de la semana (Sun-Sat)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%W</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre del día de la semana (Sunday-Saturday)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%b</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre abreviado del mes (Jan-Dec)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%M</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre del mes (January-December)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%y</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Año con dos dígitos</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%Y</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Año con cuatro dígitos</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="title">Example 27. Mostrar el nombre, empleo y feha de entrada de todos los empleados. La fecha de entrada se presentará con el día con dos dígitos, el mes abreviado y el año con cuatro dígitos.</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">USE RRHH;
+SELECT nombre, empleo, DATE_FORMAT(fechaEntrada, '%d %b %Y') AS fechaEntrada
+FROM Empleado;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">fechaEntrada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 Dec 2000</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20 Feb 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22 Feb 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">02 Apr 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28 Sep 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">01 May 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">09 Jun 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">09 Dec 2002</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 Nov 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">08 Sep 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12 Jan 2003</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">James</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">03 Dec 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ford</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">03 Dec 2001</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Miller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23 Jan 2002</p></td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="sect2">
@@ -7378,7 +7424,7 @@ GROUP BY departamento;</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-29 21:05:00 +0100
+Last updated 2025-12-08 20:15:14 +0100
 </div>
 </div>
 </body>
