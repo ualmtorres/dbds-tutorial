@@ -1,4 +1,4 @@
-id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id
+numero,nombre,empleo,jefe,fechaEntrada,sueldo,complemento,numeroDepartamento
 7839,King,Director,None,2001-11-17,5000.0,None,10
 7902,Ford,Analista,7566,2001-12-03,3000.0,None,20
 7788,Scott,Analista,7566,2002-12-09,3000.0,None,20

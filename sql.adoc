@@ -422,7 +422,9 @@ include::scripts/RRHH/DATEFORMAT.sql[]
 include::scripts/RRHH/DATEFORMAT.csv[]
 |===================================================
 
-=== Funciones de agregación
+== Funciones de agregación
+
+Actúan sobre un conjunto de filas y devuelven un único valor resumen. Si no se usan cláusulas de agrupación (`GROUP BY`, que veremos más adelante), actúan sobre todas las filas devueltas por la consulta.
 
 [NOTE]
 ====

@@ -462,9 +462,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_manejo_de_fechas">Manejo de fechas</a>
 <ul class="sectlevel2">
 <li><a href="#_funciones_para_el_manejo_de_fechas">Funciones para el manejo de fechas</a></li>
-<li><a href="#_funciones_de_agregación">Funciones de agregación</a></li>
 </ul>
 </li>
+<li><a href="#_funciones_de_agregación">Funciones de agregación</a></li>
 <li><a href="#_agregación_de_resultados">Agregación de resultados</a></li>
 <li><a href="#_combinación_de_tablas">Combinación de tablas</a>
 <ul class="sectlevel2">
@@ -2754,14 +2754,14 @@ LIMIT 3;</code></pre>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">numero</th>
 <th class="tableblock halign-left valign-top">nombre</th>
 <th class="tableblock halign-left valign-top">empleo</th>
 <th class="tableblock halign-left valign-top">jefe</th>
-<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">fechaEntrada</th>
 <th class="tableblock halign-left valign-top">sueldo</th>
 <th class="tableblock halign-left valign-top">complemento</th>
-<th class="tableblock halign-left valign-top">departamento_id</th>
+<th class="tableblock halign-left valign-top">numeroDepartamento</th>
 </tr>
 </thead>
 <tbody>
@@ -3556,8 +3556,14 @@ FROM Empleado;</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_funciones_de_agregación">Funciones de agregación</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_funciones_de_agregación">Funciones de agregación</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Actúan sobre un conjunto de filas y devuelven un único valor resumen. Si no se usan cláusulas de agrupación (<code>GROUP BY</code>, que veremos más adelante), actúan sobre todas las filas devueltas por la consulta.</p>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -3902,7 +3908,6 @@ FROM Empleado;</code></pre>
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -7424,7 +7429,7 @@ GROUP BY departamento;</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-08 20:15:14 +0100
+Last updated 2025-12-09 06:32:32 +0100
 </div>
 </div>
 </body>
