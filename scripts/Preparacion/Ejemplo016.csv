@@ -1,0 +1,4 @@
+id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id
+1000,Ripley,Editor,7839,2025-10-10,2200,NaN,40
+1001,Dubert,Grafista,1000,2025-11-11,1600,300.0,40
+1002,Pitsen,Grafista,1000,2025-11-11,1600,100.0,40

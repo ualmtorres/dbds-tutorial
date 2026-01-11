@@ -10,30 +10,479 @@ Codificación, idioma, tabla de contenidos, tipo de documento
 :toc-title: Tabla de contenidos
 :doctype: book
 :linkattrs:
-
-// NO CAMBIAR!! (Entrar en modo no numerado de apartados)
 :numbered!: 
 
-////
-COLOCA A CONTINUACION EL RESUMEN
-////
 [abstract,window="_blank"]
 == Resumen
+En este capítulo se abordan las técnicas y mejores prácticas para la preparación de datos en SQL, un paso crucial antes de realizar cualquier análisis. Se cubren aspectos fundamentales como la limpieza de datos, la detección de valores atípicos (outliers), la ingeniería de características y el tratamiento de datos ausentes. Además, se dedica un apartado especial al manejo y carga de archivos CSV en entornos Python y MySQL, destacando su importancia en proyectos reales de análisis de datos. A través de ejemplos prácticos, se ilustran las consultas SQL necesarias para llevar a cabo estas tareas, proporcionando a los lectores las herramientas necesarias para garantizar la calidad y fiabilidad de sus análisis de datos.
 
-
-////
-COLOCA A CONTINUACION LOS OBJETIVOS
-////
 .Objetivos
+* Comprender la importancia de la preparación de datos en SQL para el análisis de datos.
+* Aprender técnicas de limpieza de datos, detección de outliers, ingeniería de características y tratamiento de datos ausentes utilizando SQL.
+* Adquirir habilidades para manejar y cargar archivos CSV en entornos Python y MySQL.
 
 
-// Entrar en modo numerado de apartados
-:numbered:
+== Preparación de datos para análisis en SQL
+
+La preparación de datos es un paso crucial antes de realizar cualquier análisis en SQL. Aquí se mostrará cómo limpiar, transformar y organizar tus datos para que estén listos para consultas eficientes y precisas. Concretaremos, estudiaremos lo siguiente:
+
+* **Limpieza de datos**: Identificación y corrección de errores, manejo de valores nulos y eliminación de duplicados.
+* **Detección de valores atípicos (outliers)**: Identificación y manejo de outliers que pueden afectar el análisis.
+* **Ingeniería de características**: Creación de nuevas variables a partir de las existentes para mejorar los modelos analíticos.
+* **Tratamiento de datos ausentes**: Técnicas para manejar datos faltantes, como imputación o eliminación.
+
+No obstante, una cuestión de interés en tareas de preparación de datos, y gestión de datos en general es la relativa al tratamiento de archivos CSV (Comma-Separated Values). Los archivos CSV son una de las fuentes de datos más comunes en proyectos de análisis de datos. Debido a la ausencia de validaciones de tipo y formato, suelen contener valores ausentes, inconsistencias o errores. Por ello, es fundamental saber importar y preparar correctamente archivos CSV antes de su análisis, garantizando la calidad de los datos y la fiabilidad de las consultas y resultados posteriores. Dedicaremos al final un pequeño apartado al uso de archivos CSV en la preparación de datos.
+
+## Limpieza de datos
+
+La limpieza de datos es el proceso de identificar y corregir errores en los datos para asegurar su calidad. Esto incluye:
+
+- **Identificación de errores**: Revisar los datos en busca de inconsistencias, errores tipográficos y formatos incorrectos. Para ello, SQL ofrece funciones como `ISNULL()`, `COALESCE()`, y `TRY_CAST()` que pueden ayudar a identificar y manejar estos problemas (En MySQL, `TRY_CAST` se puede implementar mediante `CASE WHEN`).
+- **Manejo de valores nulos**: Decidir cómo tratar los valores faltantes, ya sea eliminándolos o imputándolos con valores apropiados.
+- **Eliminación de duplicados**: Identificar y eliminar registros duplicados que puedan sesgar los resultados del análisis.
+- **Corrección de formatos**: Asegurar que todos los datos estén en el formato correcto (por ejemplo, fechas, números).
+- **Validación de rangos**: Verificar que los valores numéricos estén dentro de rangos esperados.
+
+Veamos algunos ejemplos prácticos de limpieza de datos en SQL.
+
+.Ejemplo. Obtener id, nombre, sueldo y complemento de empleados sin complemento asignado.
+[source,sql]
+====
+SELECT
+    id,
+    nombre,
+    sueldo,
+    complemento
+FROM Empleados
+WHERE complemento IS NULL;
+====
+
+[format="csv",options="header"]
+|===================================================
+include::scripts/Preparacion/Ejemplo001.csv[]
+|===================================================
+
+.Ejemplo. Obtener id, nombre y empleo de empleados sin jefe asignado.
+[source,sql]
+====
+SELECT
+    id,
+    nombre,
+    empleo
+FROM Empleados
+WHERE jefe IS NULL;
+====
+
+====
+include::scripts/Preparacion/Ejemplo002.csv[]
+====
+
+La consulta anterior es reescribible con `ISNULL()` como:
+[source,sql]
+====
+SELECT
+    id,
+    nombre,
+    empleo
+FROM Empleados
+WHERE ISNULL(jefe);
+====
+
+====
+include::scripts/Preparacion/Ejemplo003.csv[]
+====
+
+.Ejemplo. Obtener departamentos sin empleados.
+[source,sql]
+====
+SELECT
+    d.id,
+    d.nombre
+FROM Departamentos d
+LEFT JOIN Empleados e
+    ON d.id = e.departamento_id
+WHERE e.id IS NULL;
+====
+
+====
+include::scripts/Preparacion/Ejemplo004.csv[]
+====
+
+.Ejemplo. Obtener empleados con su sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.
+[source,sql]
+====
+SELECT
+    id,
+    nombre,
+    sueldo,
+    COALESCE(complemento, 0) AS complemento,
+    sueldo + COALESCE(complemento, 0) AS salario_total
+FROM Empleados;
+====
+
+====
+include::scripts/Preparacion/Ejemplo005.csv[]
+====
+
+.Ejemplo. Detección de empleados con el mismo nombre, empleo y jefe asignado (posible duplicado).
+[source,sql]
+====
+SELECT nombre, empleo, jefe, COUNT(*) AS cantidad
+FROM Empleados
+GROUP BY nombre, empleo, jefe
+HAVING COUNT(*) > 1;
+====
+
+====
+include::scripts/Preparacion/Ejemplo006.csv[]
+====
+
+## Detección de valores atípicos (outliers)
+
+Los valores atípicos (outliers) son datos que se encuentran significativamente alejados del resto de los datos. Estos pueden afectar negativamente el análisis y los resultados. En SQL, puedes identificar outliers utilizando técnicas como:
+- **Desviación estándar**: Calcular la media y la desviación estándar de una columna numérica, y considerar como outliers aquellos valores que se encuentran a más de 2 o 3 desviaciones estándar de la media.
+- **Cuartiles**: Utilizar los cuartiles para identificar valores que se encuentran fuera del rango intercuartílico (IQR). Los valores que están por debajo de Q1 - 1.5*IQR o por encima de Q3 + 1.5*IQR pueden considerarse outliers.
+
+Veamos algunos ejemplos prácticos de detección de outliers en SQL.
+
+.Ejemplo. Detección de empleados con sueldo por encima o por debajo de dos desviaciones estándar de la media. (Usar la función STDDEV_POP para obtener la desviación estándar poblacional).
+[source,sql]
+====
+SELECT id, nombre, sueldo
+FROM Empleados
+WHERE sueldo > (SELECT AVG(sueldo) + 2*STDDEV_POP(sueldo) FROM Empleados)
+   OR sueldo < (SELECT AVG(sueldo) - 2*STDDEV_POP(sueldo) FROM Empleados);
+====
+
+====
+include::scripts/Preparacion/Ejemplo007.csv[]
+====
+
+.Ejemplo. Realizar una consulta análoga para detectar empleados con complementos atípicos usando la misma lógica de desviación estándar.
+[source,sql]
+====
+SELECT id, nombre, complemento
+FROM Empleados
+WHERE complemento IS NOT NULL
+  AND (complemento > (SELECT AVG(complemento) + 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL)
+       OR complemento < (SELECT AVG(complemento) - 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL));
+====
+
+====
+include::scripts/Preparacion/Ejemplo008.csv[]
+====
+
+## Ingeniería de características
+
+La ingeniería de características implica la creación de nuevas variables a partir de las existentes para mejorar los modelos analíticos. En SQL, esto puede incluir, entre otras:
+- **Creación de nuevas columnas**: Utilizar expresiones SQL para derivar nuevas columnas basadas en cálculos o transformaciones de las columnas existentes.
+- **Agrupación de datos**: Crear variables categóricas a partir de variables numéricas mediante la agrupación en rangos o categorías.
+- **Combinación de columnas**: Concatenar o combinar múltiples columnas para formar nuevas características.
+
+Veamos algunos ejemplos prácticos de ingeniería de características en SQL.
+
+.Ejemplo. Obtener id, nombre, sueldo y complemento de cada empleado añadiéndole una columna de sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.
+[source,sql]
+====
+SELECT 
+    id,
+    nombre,
+    sueldo,
+    complemento,
+    sueldo + COALESCE(complemento,0) AS sueldo_total
+FROM Empleados;
+====
+
+====
+include::scripts/Preparacion/Ejemplo009.csv[]
+====
+
+La función `TIMESTAMPDIFF()` puede ser útil para crear nuevas características basadas en diferencias de tiempo entre fechas. Esta función calcula la diferencia entre dos marcas de tiempo en unidades especificadas (como días, meses o años), lo que puede ser útil para analizar la antigüedad de empleados, duración de proyectos u otros aspectos temporales en los datos.
+
+.Ejemplo. Calcular la antigüedad de cada empleado en años a partir de su fecha de contratación.
+[source,sql]
+====
+SELECT 
+    id,
+    nombre,
+    fecha_entrada,
+    TIMESTAMPDIFF(YEAR, fecha_entrada, CURDATE()) AS antiguedad_anios
+FROM Empleados;
+====
+
+Otra opción interesante es usar la función `CASE` para crear nuevas características basadas en condiciones específicas. Por ejemplo, podemos categorizar a los emmpleados según su empleo.
+
+====
+include::scripts/Preparacion/Ejemplo010.csv[]
+====
+
+.Ejemplo. Crear una nueva columna que clasifique a los empleados en `Dirección` y `Operativo` según su empleo. Los empleados con empleo 'Directivo' o 'Director' se clasificarán como 'Dirección', mientras que el resto se clasificará como 'Operativo'.
+[source,sql]
+====
+SELECT 
+    id,
+    nombre,
+    empleo,
+    CASE 
+        WHEN empleo IN ('Director','Directivo') THEN 'Dirección'
+        ELSE 'Operativo'
+    END AS Direccion
+FROM Empleados;
+====
+
+====
+include::scripts/Preparacion/Ejemplo011.csv[]
+====
+
+## Tratamiento de datos ausentes
+
+El tratamiento de datos ausentes es fundamental para asegurar la calidad del análisis. Se trata de valores que no están registrados en el conjunto de datos y aparecen como `NULL` en SQL. Existen varias estrategias para manejar estos datos:
+- **Señalización de datos ausentes**: Crear una columna adicional que indique si un valor está ausente o no.
+- **Uso de valores predeterminados**: Asignar un valor predeterminado a los campos nulos, como 0 para números o 'Desconocido' para cadenas de texto.
+- **Imputación de valores**: Rellenar los valores nulos con valores estadísticos como la media, mediana o moda de la columna.
+- **Eliminación de registros**: Si la cantidad de datos ausentes es pequeña, se pueden eliminar los registros que contienen valores nulos.
+- **Análisis separado**: Tratar los registros con datos ausentes como un grupo separado en el análisis para entender su impacto.
+
+Podemos usar el concepto de vistas en SQL para crear diferentes versiones de los datos con distintos tratamientos de los valores nulos.
+
+.Ejemplo. Crear una vista que muestre los empleados junto con una columna adicional que indique si el complemento es nulo o no.
+[source,sql]
+====
+CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
+SELECT *,
+       CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
+FROM Empleados; 
+====
+
+.Ejemplo. Consultar la vista creada.
+
+[source,sql]
+====
+SELECT *
+FROM empleados_con_indicador_de_complemento;
+====
+
+====
+include::scripts/Preparacion/Ejemplo012.csv[]
+====
+
+.Ejemplo. Modificar la vista anterior para que, además del indicador de complemento nulo, muestre el complemento con un valor predeterminado de 0 en lugar de NULL.
+[source,sql]
+====
+CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
+SELECT id,
+        nombre, empleo, jefe, fecha_entrada, sueldo, COALESCE(complemento, 0) AS complemento, departamento_id,
+       CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
+FROM Empleados;
+====
+
+.Ejemplo. Consultar la vista creada.
+
+[source,sql]
+====
+SELECT *
+FROM empleados_con_indicador_de_complemento;
+====
+
+====
+include::scripts/Preparacion/Ejemplo013.csv[]
+====
+
+.Ejemplo. Crear una vista que haga una imputación de valores nulos en la columna de complemento, reemplazándolos con la media de los complementos no nulos, y que también incluya un indicador de si el complemento original era nulo.
+[source,sql]
+====
+CREATE OR REPLACE VIEW empleados_con_complemento_imputado_con_media AS
+SELECT id,
+        nombre, empleo, jefe, fecha_entrada, sueldo, 
+       COALESCE(complemento, (SELECT AVG(complemento) FROM Empleados WHERE complemento IS NOT NULL)) AS complemento,
+       departamento_id,
+       CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
+FROM Empleados;
+====
+
+.Ejemplo. Consultar la vista creada anteriormente.
+[source,sql]
+====
+SELECT *
+FROM empleados_con_complemento_imputado_con_media;
+====
+
+====
+include::scripts/Preparacion/Ejemplo014.csv[]
+====
+
+Para eliminar registros con valores nulos, se puede usar la sentencia `DELETE`.
+
+.Ejemplo. Eliminar registros de empleados donde el complemento es nulo.
+[source,sql]
+====
+DELETE 
+FROM Empleados
+WHERE complemento IS NULL;
+====
+
+.Ejemplo. Comprobar que los empleados con complemento nulo han sido eliminados.
+[source,sql]
+====
+SELECT *
+FROM Empleados;
+====
+
+====
+include::scripts/Preparacion/Ejemplo015.csv[]
+====
+
+.Ejemplo. Volver a insertar los registros eliminados anteriormente (con complemento nulo) para restaurar la tabla Empleados a su estado original.
+[source,sql]
+====
+INSERT INTO Empleados VALUES
+        (7369,'Smith','Ordenanza',7902,'2000-12-17',800,NULL,20);
+INSERT INTO Empleados VALUES
+        (7566,'Jones','Directivo',7839,'2001-04-02',2975,NULL,20);
+INSERT INTO Empleados VALUES
+        (7698,'Blake','Directivo',7839,'2001-05-01',2850,NULL,30);
+INSERT INTO Empleados VALUES
+        (7782,'Clark','Directivo',7839,'2001-06-09',2450,NULL,10);
+INSERT INTO Empleados VALUES
+        (7788,'Scott','Analista',7566,'2002-12-09',3000,NULL,20);
+INSERT INTO Empleados VALUES
+        (7839,'King','Director',NULL,'2001-11-17',5000,NULL,10);
+INSERT INTO Empleados VALUES
+        (7876,'Adams','Ordenanza',7788,'2003-01-12',1100,NULL,20);
+INSERT INTO Empleados VALUES
+        (7900,'James','Ordenanza',7698,'2001-12-03',950,NULL,30);
+INSERT INTO Empleados VALUES
+        (7902,'Ford','Analista',7566,'2001-12-03',3000,NULL,20);
+INSERT INTO Empleados VALUES
+        (7934,'Miller','Ordenanza',7782,'2002-01-23',1300,NULL,10);
+====
+
+## Tratamiento de archivos CSV
+
+Los archivos CSV (Comma-Separated Values) son uno de los formatos más utilizados para el intercambio y almacenamiento de datos debido a su simplicidad y compatibilidad con múltiples herramientas y lenguajes. En proyectos reales de análisis de datos, es muy habitual que la información de partida provenga de ficheros CSV generados por sistemas externos, hojas de cálculo o fuentes abiertas de datos.
+
+Sin embargo, los archivos CSV suelen carecer de validaciones estrictas de tipo, integridad o formato, lo que puede dar lugar a valores ausentes, datos mal tipados, inconsistencias o errores que afectan directamente a la calidad del análisis. Por este motivo, resulta fundamental saber importar, inspeccionar y preparar correctamente este tipo de archivos antes de su explotación analítica.
+
+Dominar el tratamiento de archivos CSV permite al analista detectar problemas de calidad de datos, realizar conversiones seguras de tipos, gestionar valores nulos y estructurar la información de forma adecuada dentro de una base de datos relacional. Esta fase de preparación es clave para garantizar consultas SQL fiables, análisis precisos y resultados reproducibles en proyectos de Ciencia de Datos.
+
+### Carga de archivos CSV en MySQL
+
+La carga de archivos CSV en MySQL es un paso fundamental en la preparación de datos, ya que permite incorporar datos externos a una base de datos relacional para su posterior limpieza y análisis. Este proceso incluye la creación previa de la tabla con los tipos de datos adecuados y el uso de mecanismos de carga como LOAD DATA INFILE o herramientas gráficas (por ejemplo, MySQL Workbench). Durante la carga es importante gestionar correctamente delimitadores, codificación, valores nulos y formatos de fecha para evitar errores y garantizar la calidad de los datos importados.
+
+A continuación, se muestra un ejemplo de cómo cargar un archivo CSV en una tabla MySQL utilizando Python y la librería `pandas` para la manipulación de datos, junto con `pymysql` para la conexión a la base de datos MySQL. `pandas` ofrece una gran capacidad para manejar datos tabulares y facilita la carga, inspección y transformación de los datos antes de insertarlos en la base de datos. Para este ejemplo, asumimos que el archivo CSV se llama `nuevo_personal.csv` y contiene datos similares a los de la tabla Empleados.
+
+[NOTE]
+====
+Nos apoyaremos en los dataframes, una estructura de datos tabular proporcionada por la librería `pandas` en Python. Los dataframes permiten manipular, transformar y analizar datos de manera eficiente antes de cargarlos en la base de datos MySQL.
+====
+
+.Ejemplo. Cargar en el cuaderno Jupyter el archivo `nuevo_personal.csv`.
+[source,python]
+====
+import pandas as pd
+
+df = pd.read_csv("https://gist.githubusercontent.com/ualmtorres/4c842fadc6a7cc98389a837e4a7ca78d/raw/d4f7fff58a2e60a72a384d0813fecc6cd941c85c/nuevo_personal.csv")
+df.head()
+====
+
+El código anterior realizar lo siguiente:
+
+1. Importa la librería pandas para trabajar con datos tabulares
+2. Lee el archivo CSV "nuevo_personal.csv" y lo carga en un DataFrame
+3. Muestra las primeras 5 filas del DataFrame con `df.head()`
+
+====
+include::scripts/Preparacion/Ejemplo016.csv[]
+====
+
+[NOTE]
+====
+Los valores nulos en el archivo CSV se representan como celdas vacías. Al cargar el archivo en el DataFrame, pandas automáticamente interpreta estas celdas vacías como valores `NaN`` (Not a Number), que es la representación estándar de valores nulos en pandas. Esto posteriomente lo trataremos para que sean convertidos en `NULL` al insertar los datos en la base de datos MySQL.
+====
+
+[source,python]
+====
+import pymysql
+
+# Conexión al MySQL en Aiven
+conn = pymysql.connect(
+    host='your-aiven-host.aivencloud.com',
+    user='your-username',
+    password='your-password',
+    database='your-database',
+    port=28830  # El puerto de la base de datos Aiven
+)
+cursor = conn.cursor()
+====
+
+El código anterior realiza lo siguiente:
+
+1. Importa la librería pymysql, que permite conectar Python con bases de datos MySQL
+
+2. Establece una conexión a una base de datos MySQL hospedada en Aiven con los siguientes parámetros:
+   - host: dirección del servidor MySQL en Aiven
+   - user: usuario administrador de la base de datos
+   - password: contraseña de autenticación
+   - database: nombre de la base de datos a utilizar ('p.e. defaultdb')
+   - port: puerto específico de conexión (p.e. 28830)
+
+3. Crea un objeto cursor que permite ejecutar consultas SQL y manipular datos en la base de datos
+
+Esta conexión permite interactuar con la base de datos MySQL desde Python, facilitando operaciones como insertar, actualizar, eliminar o consultar datos
+
+[source,python]
+====
+# Insertar fila a fila convirtiendo NaN a None
+for row in df.itertuples(index=False):
+    values = tuple(None if (isinstance(x, float) and np.isnan(x)) else x for x in row)
+    cursor.execute("""
+        INSERT INTO Empleados (id, nombre, empleo, jefe, fecha_entrada, sueldo, complemento, departamento_id)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """, values)
+
+conn.commit()
+cursor.close()
+conn.close()
+====
+
+El código anterior lee del DataFrame (`df`) con los datos importados desde el CSV y vuelca fila a fila esos registros en la tabla Empleados de la base de datos MySQL.
+
+1. Se recorre el DataFrame con for row in `df.itertuples(index=False)`. Se excluye el índice porque `df.itertuples()` incluye el índice como primer elemento de la tupla por defecto (`df.index`). A continuación, viene el resto de columnas en el orden del DataFrame.
+
+2. Para cada fila se construye una tupla `values` reemplazando `NaN` por `None` con la expresión (`None` es el equivalente a `NULL` en Python):
+         `tuple(None if (isinstance(x, float) and np.isnan(x)) else x for x in row)` hace que los valores ausentes de pandas se inserten como `NULL` en MySQL.
+
+3. Se ejecuta una sentencia `INSERT` parametrizada usando `cursor.execute(...)` con los valores construidos.
+
+4. Al terminar el bucle se hace `conn.commit()` para que los cambios se guarden en la base de datos, y se cierran el cursor y la conexión.
+
+.Ejemplo. Comprobar los datos insertados desde el CSV en la tabla Empleados.
+
+[source, sql]
+====
+SELECT *
+FROM Empleados;
+====
+
+====
+include::scripts/Preparacion/Ejemplo017.csv[]
+====
+
+Una vez que los datos se han cargado desde un archivo CSV a la base de datos o al entorno de análisis, es cuando se realizarían las operaciones de preparación de datos descritas anteriormente. Esto se debe a que los archivos CSV suelen contener valores ausentes, inconsistencias, errores de formato o tipos de datos incorrectos que pueden afectar la calidad y fiabilidad del análisis.
+
+Las funciones y técnicas de tratamiento de datos vistas anteriormente, como el manejo de valores nulos (`ISNULL`, `COALESCE`), la detección de duplicados, la imputación de datos faltantes, la creación de nuevas columnas derivadas y la validación de datos, permiten:
+
+* Limpiar y normalizar los datos importados.
+* Detectar y reemplazar valores ausentes de forma segura.
+* Transformar los datos para que cumplan con los tipos y formatos esperados.
+* Preparar el dataset para análisis SQL precisos, agregaciones correctas y visualizaciones fiables.
+
+En conjunto, la carga de datos y su posterior tratamiento garantizan que el dataset esté completo, consistente y listo para cualquier consulta, modelado o visualización, reduciendo errores y mejorando la calidad del análisis.
 
 ## Licencia
 
 Licencia CC BY-NC-ND 4.0
 
-Copyright (c) 2025 [Manuel Torres - Departamento de Informática - Universidad de Almería]
+Copyright (c) 2026 [Manuel Torres - Departamento de Informática - Universidad de Almería]
 
 Este proyecto está licenciado bajo la Licencia CC BY-NC-ND 4.0. Esto significa que puedes compartir el proyecto siempre que cites al autor, no lo uses para fines comerciales y no realices obras derivadas.

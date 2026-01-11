@@ -1,0 +1,11 @@
+id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id
+1000,Ripley,Editor,7839,2025-10-10,2200.0,,40
+1001,Dubert,Grafista,1000,2025-11-11,1600.0,300.0,40
+1002,Pitsen,Grafista,1000,2025-11-11,1600.0,100.0,40
+7369,Smith,Ordenanza,7902,2000-12-17,800.0,,20
+7499,Allen,Vendedor,7698,2001-02-20,1600.0,300.0,30
+7521,Ward,Vendedor,7698,2001-02-22,1250.0,500.0,30
+7566,Jones,Directivo,7839,2001-04-02,2975.0,,20
+7654,Martin,Vendedor,7698,2001-09-28,1250.0,1400.0,30
+7698,Blake,Directivo,7839,2001-05-01,2850.0,,30
+7782,Clark,Directivo,7839,2001-06-09,2450.0,,10

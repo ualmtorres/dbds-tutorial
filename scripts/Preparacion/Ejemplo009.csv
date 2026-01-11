@@ -1,0 +1,11 @@
+id,nombre,sueldo,complemento,sueldo_total
+7369,Smith,800.0,None,800.0
+7499,Allen,1600.0,300.0,1900.0
+7521,Ward,1250.0,500.0,1750.0
+7566,Jones,2975.0,None,2975.0
+7654,Martin,1250.0,1400.0,2650.0
+7698,Blake,2850.0,None,2850.0
+7782,Clark,2450.0,None,2450.0
+7788,Scott,3000.0,None,3000.0
+7839,King,5000.0,None,5000.0
+7844,Turner,1500.0,0.0,1500.0
