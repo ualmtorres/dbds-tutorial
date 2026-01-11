@@ -537,18 +537,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Veamos algunos ejemplos prácticos de limpieza de datos en SQL.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 1. Ejemplo. Obtener id, nombre, sueldo y complemento de empleados sin complemento asignado.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Obtener id, nombre, sueldo y complemento de empleados sin complemento asignado.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     sueldo,
     complemento
 FROM Empleados
-WHERE complemento IS NULL;</p>
-</div>
+WHERE complemento IS NULL;</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -629,121 +627,229 @@ WHERE complemento IS NULL;</p>
 </tr>
 </tbody>
 </table>
-<div class="exampleblock">
-<div class="title">Example 2. Ejemplo. Obtener id, nombre y empleo de empleados sin jefe asignado.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Obtener id, nombre y empleo de empleados sin jefe asignado.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     empleo
 FROM Empleados
-WHERE jefe IS NULL;</p>
+WHERE jefe IS NULL;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo
-7839,King,Director</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>La consulta anterior es reescribible con <code>ISNULL()</code> como:</p>
 </div>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     empleo
 FROM Empleados
-WHERE ISNULL(jefe);</p>
+WHERE ISNULL(jefe);</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Obtener departamentos sin empleados.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo
-7839,King,Director</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 3. Ejemplo. Obtener departamentos sin empleados.</div>
-<div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     d.id,
     d.nombre
 FROM Departamentos d
 LEFT JOIN Empleados e
     ON d.id = e.departamento_id
-WHERE e.id IS NULL;</p>
+WHERE e.id IS NULL;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operaciones</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Obtener empleados con su sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre
-40,Operaciones</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 4. Ejemplo. Obtener empleados con su sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.</div>
-<div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     sueldo,
     COALESCE(complemento, 0) AS complemento,
     sueldo + COALESCE(complemento, 0) AS salario_total
-FROM Empleados;</p>
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">salario_total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1900.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1750.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2650.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Detección de empleados con el mismo nombre, empleo y jefe asignado (posible duplicado).</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,sueldo,complemento,salario_total
-7369,Smith,800.0,0.0,800.0
-7499,Allen,1600.0,300.0,1900.0
-7521,Ward,1250.0,500.0,1750.0
-7566,Jones,2975.0,0.0,2975.0
-7654,Martin,1250.0,1400.0,2650.0
-7698,Blake,2850.0,0.0,2850.0
-7782,Clark,2450.0,0.0,2450.0
-7788,Scott,3000.0,0.0,3000.0
-7839,King,5000.0,0.0,5000.0
-7844,Turner,1500.0,0.0,1500.0</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 5. Ejemplo. Detección de empleados con el mismo nombre, empleo y jefe asignado (posible duplicado).</div>
-<div class="content">
-<div class="paragraph">
-<p>SELECT nombre, empleo, jefe, COUNT(<strong>) AS cantidad
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT nombre, empleo, jefe, COUNT(*) AS cantidad
 FROM Empleados
 GROUP BY nombre, empleo, jefe
-HAVING COUNT(</strong>) &gt; 1;</p>
+HAVING COUNT(*) &gt; 1;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>nombre,empleo,jefe,cantidad</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">cantidad</th>
+</tr>
+</thead>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -757,130 +863,285 @@ HAVING COUNT(</strong>) &gt; 1;</p>
 <div class="paragraph">
 <p>Veamos algunos ejemplos prácticos de detección de outliers en SQL.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 6. Ejemplo. Detección de empleados con sueldo por encima o por debajo de dos desviaciones estándar de la media. (Usar la función STDDEV_POP para obtener la desviación estándar poblacional).</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Detección de empleados con sueldo por encima o por debajo de dos desviaciones estándar de la media. (Usar la función STDDEV_POP para obtener la desviación estándar poblacional).</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT id, nombre, sueldo
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT id, nombre, sueldo
 FROM Empleados
 WHERE sueldo &gt; (SELECT AVG(sueldo) + 2*STDDEV_POP(sueldo) FROM Empleados)
-   OR sueldo &lt; (SELECT AVG(sueldo) - 2*STDDEV_POP(sueldo) FROM Empleados);</p>
+   OR sueldo &lt; (SELECT AVG(sueldo) - 2*STDDEV_POP(sueldo) FROM Empleados);</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Realizar una consulta análoga para detectar empleados con complementos atípicos usando la misma lógica de desviación estándar.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,sueldo
-7839,King,5000.0</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 7. Ejemplo. Realizar una consulta análoga para detectar empleados con complementos atípicos usando la misma lógica de desviación estándar.</div>
-<div class="content">
-<div class="paragraph">
-<p>SELECT id, nombre, complemento
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT id, nombre, complemento
 FROM Empleados
 WHERE complemento IS NOT NULL
   AND (complemento &gt; (SELECT AVG(complemento) + 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL)
-       OR complemento &lt; (SELECT AVG(complemento) - 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL));</p>
+       OR complemento &lt; (SELECT AVG(complemento) - 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL));</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,complemento</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+</tr>
+</thead>
+</table>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_ingeniería_de_características">Ingeniería de características</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>La ingeniería de características implica la creación de nuevas variables a partir de las existentes para mejorar los modelos analíticos. En SQL, esto puede incluir, entre otras:
-- <strong>Creación de nuevas columnas</strong>: Utilizar expresiones SQL para derivar nuevas columnas basadas en cálculos o transformaciones de las columnas existentes.
-- <strong>Agrupación de datos</strong>: Crear variables categóricas a partir de variables numéricas mediante la agrupación en rangos o categorías.
-- <strong>Combinación de columnas</strong>: Concatenar o combinar múltiples columnas para formar nuevas características.</p>
+<p>La ingeniería de características implica la creación de nuevas variables a partir de las existentes para mejorar los modelos analíticos. En SQL, esto puede incluir, entre otras:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Creación de nuevas columnas</strong>: Utilizar expresiones SQL para derivar nuevas columnas basadas en cálculos o transformaciones de las columnas existentes.</p>
+</li>
+<li>
+<p><strong>Agrupación de datos</strong>: Crear variables categóricas a partir de variables numéricas mediante la agrupación en rangos o categorías.</p>
+</li>
+<li>
+<p><strong>Combinación de columnas</strong>: Concatenar o combinar múltiples columnas para formar nuevas características.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Veamos algunos ejemplos prácticos de ingeniería de características en SQL.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 8. Ejemplo. Obtener id, nombre, sueldo y complemento de cada empleado añadiéndole una columna de sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Obtener id, nombre, sueldo y complemento de cada empleado añadiéndole una columna de sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     sueldo,
     complemento,
     sueldo + COALESCE(complemento,0) AS sueldo_total
-FROM Empleados;</p>
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,sueldo,complemento,sueldo_total
-7369,Smith,800.0,None,800.0
-7499,Allen,1600.0,300.0,1900.0
-7521,Ward,1250.0,500.0,1750.0
-7566,Jones,2975.0,None,2975.0
-7654,Martin,1250.0,1400.0,2650.0
-7698,Blake,2850.0,None,2850.0
-7782,Clark,2450.0,None,2450.0
-7788,Scott,3000.0,None,3000.0
-7839,King,5000.0,None,5000.0
-7844,Turner,1500.0,0.0,1500.0</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">sueldo_total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1900.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1750.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2650.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>La función <code>TIMESTAMPDIFF()</code> puede ser útil para crear nuevas características basadas en diferencias de tiempo entre fechas. Esta función calcula la diferencia entre dos marcas de tiempo en unidades especificadas (como días, meses o años), lo que puede ser útil para analizar la antigüedad de empleados, duración de proyectos u otros aspectos temporales en los datos.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 9. Ejemplo. Calcular la antigüedad de cada empleado en años a partir de su fecha de contratación.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Calcular la antigüedad de cada empleado en años a partir de su fecha de contratación.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     fecha_entrada,
     TIMESTAMPDIFF(YEAR, fecha_entrada, CURDATE()) AS antiguedad_anios
-FROM Empleados;</p>
-</div>
+FROM Empleados;</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Otra opción interesante es usar la función <code>CASE</code> para crear nuevas características basadas en condiciones específicas. Por ejemplo, podemos categorizar a los emmpleados según su empleo.</p>
 </div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">antiguedad_anios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Crear una nueva columna que clasifique a los empleados en <code>Dirección</code> y <code>Operativo</code> según su empleo. Los empleados con empleo 'Directivo' o 'Director' se clasificarán como 'Dirección', mientras que el resto se clasificará como 'Operativo'.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,fecha_entrada,antiguedad_anios
-7369,Smith,2000-12-17,25
-7499,Allen,2001-02-20,24
-7521,Ward,2001-02-22,24
-7566,Jones,2001-04-02,24
-7654,Martin,2001-09-28,24
-7698,Blake,2001-05-01,24
-7782,Clark,2001-06-09,24
-7788,Scott,2002-12-09,23
-7839,King,2001-11-17,24
-7844,Turner,2001-09-08,24</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 10. Ejemplo. Crear una nueva columna que clasifique a los empleados en <code>Dirección</code> y <code>Operativo</code> según su empleo. Los empleados con empleo 'Directivo' o 'Director' se clasificarán como 'Dirección', mientras que el resto se clasificará como 'Operativo'.</div>
-<div class="content">
-<div class="paragraph">
-<p>SELECT
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT
     id,
     nombre,
     empleo,
@@ -888,27 +1149,87 @@ FROM Empleados;</p>
         WHEN empleo IN ('Director','Directivo') THEN 'Dirección'
         ELSE 'Operativo'
     END AS Direccion
-FROM Empleados;</p>
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,Direccion
-7369,Smith,Ordenanza,Operativo
-7499,Allen,Vendedor,Operativo
-7521,Ward,Vendedor,Operativo
-7566,Jones,Directivo,Dirección
-7654,Martin,Vendedor,Operativo
-7698,Blake,Directivo,Dirección
-7782,Clark,Directivo,Dirección
-7788,Scott,Analista,Operativo
-7839,King,Director,Dirección
-7844,Turner,Vendedor,Operativo</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">Direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operativo</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operativo</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operativo</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dirección</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operativo</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dirección</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dirección</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operativo</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dirección</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operativo</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -925,159 +1246,566 @@ FROM Empleados;</p>
 <div class="paragraph">
 <p>Podemos usar el concepto de vistas en SQL para crear diferentes versiones de los datos con distintos tratamientos de los valores nulos.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 11. Ejemplo. Crear una vista que muestre los empleados junto con una columna adicional que indique si el complemento es nulo o no.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Crear una vista que muestre los empleados junto con una columna adicional que indique si el complemento es nulo o no.</div>
 <div class="content">
-<div class="paragraph">
-<p>CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
+<pre class="highlight"><code class="language-sql" data-lang="sql">CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
 SELECT *,
        CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
-FROM Empleados;</p>
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 12. Ejemplo. Consultar la vista creada.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Consultar la vista creada.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT *
-FROM empleados_con_indicador_de_complemento;</p>
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT *
+FROM empleados_con_indicador_de_complemento;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
+<th class="tableblock halign-left valign-top">complemento_es_nulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Modificar la vista anterior para que, además del indicador de complemento nulo, muestre el complemento con un valor predeterminado de 0 en lugar de NULL.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id,complemento_es_nulo
-7369,Smith,Ordenanza,7902,2000-12-17,800.0,,20,1
-7499,Allen,Vendedor,7698,2001-02-20,1600.0,300.0,30,0
-7521,Ward,Vendedor,7698,2001-02-22,1250.0,500.0,30,0
-7566,Jones,Directivo,7839,2001-04-02,2975.0,,20,1
-7654,Martin,Vendedor,7698,2001-09-28,1250.0,1400.0,30,0
-7698,Blake,Directivo,7839,2001-05-01,2850.0,,30,1
-7782,Clark,Directivo,7839,2001-06-09,2450.0,,10,1
-7788,Scott,Analista,7566,2002-12-09,3000.0,,20,1
-7839,King,Director,,2001-11-17,5000.0,,10,1
-7844,Turner,Vendedor,7698,2001-09-08,1500.0,0.0,30,0</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 13. Ejemplo. Modificar la vista anterior para que, además del indicador de complemento nulo, muestre el complemento con un valor predeterminado de 0 en lugar de NULL.</div>
-<div class="content">
-<div class="paragraph">
-<p>CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
+<pre class="highlight"><code class="language-sql" data-lang="sql">CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
 SELECT id,
         nombre, empleo, jefe, fecha_entrada, sueldo, COALESCE(complemento, 0) AS complemento, departamento_id,
        CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
-FROM Empleados;</p>
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 14. Ejemplo. Consultar la vista creada.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Consultar la vista creada.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT *
-FROM empleados_con_indicador_de_complemento;</p>
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT *
+FROM empleados_con_indicador_de_complemento;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
+<th class="tableblock halign-left valign-top">complemento_es_nulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Crear una vista que haga una imputación de valores nulos en la columna de complemento, reemplazándolos con la media de los complementos no nulos, y que también incluya un indicador de si el complemento original era nulo.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id,complemento_es_nulo
-7369,Smith,Ordenanza,7902,2000-12-17,800.0,0.0,20,1
-7499,Allen,Vendedor,7698,2001-02-20,1600.0,300.0,30,0
-7521,Ward,Vendedor,7698,2001-02-22,1250.0,500.0,30,0
-7566,Jones,Directivo,7839,2001-04-02,2975.0,0.0,20,1
-7654,Martin,Vendedor,7698,2001-09-28,1250.0,1400.0,30,0
-7698,Blake,Directivo,7839,2001-05-01,2850.0,0.0,30,1
-7782,Clark,Directivo,7839,2001-06-09,2450.0,0.0,10,1
-7788,Scott,Analista,7566,2002-12-09,3000.0,0.0,20,1
-7839,King,Director,,2001-11-17,5000.0,0.0,10,1
-7844,Turner,Vendedor,7698,2001-09-08,1500.0,0.0,30,0</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 15. Ejemplo. Crear una vista que haga una imputación de valores nulos en la columna de complemento, reemplazándolos con la media de los complementos no nulos, y que también incluya un indicador de si el complemento original era nulo.</div>
-<div class="content">
-<div class="paragraph">
-<p>CREATE OR REPLACE VIEW empleados_con_complemento_imputado_con_media AS
+<pre class="highlight"><code class="language-sql" data-lang="sql">CREATE OR REPLACE VIEW empleados_con_complemento_imputado_con_media AS
 SELECT id,
         nombre, empleo, jefe, fecha_entrada, sueldo,
        COALESCE(complemento, (SELECT AVG(complemento) FROM Empleados WHERE complemento IS NOT NULL)) AS complemento,
        departamento_id,
        CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
-FROM Empleados;</p>
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 16. Ejemplo. Consultar la vista creada anteriormente.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Consultar la vista creada anteriormente.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT *
-FROM empleados_con_complemento_imputado_con_media;</p>
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT *
+FROM empleados_con_complemento_imputado_con_media;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id,complemento_es_nulo
-7369,Smith,Ordenanza,7902,2000-12-17,800.0,550.0,20,1
-7499,Allen,Vendedor,7698,2001-02-20,1600.0,300.0,30,0
-7521,Ward,Vendedor,7698,2001-02-22,1250.0,500.0,30,0
-7566,Jones,Directivo,7839,2001-04-02,2975.0,550.0,20,1
-7654,Martin,Vendedor,7698,2001-09-28,1250.0,1400.0,30,0
-7698,Blake,Directivo,7839,2001-05-01,2850.0,550.0,30,1
-7782,Clark,Directivo,7839,2001-06-09,2450.0,550.0,10,1
-7788,Scott,Analista,7566,2002-12-09,3000.0,550.0,20,1
-7839,King,Director,,2001-11-17,5000.0,550.0,10,1
-7844,Turner,Vendedor,7698,2001-09-08,1500.0,0.0,30,0</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
+<th class="tableblock halign-left valign-top">complemento_es_nulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">550.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">550.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">550.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">550.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7788</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scott</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2002-12-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">550.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">King</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Director</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-11-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">550.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Para eliminar registros con valores nulos, se puede usar la sentencia <code>DELETE</code>.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 17. Ejemplo. Eliminar registros de empleados donde el complemento es nulo.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Eliminar registros de empleados donde el complemento es nulo.</div>
 <div class="content">
-<div class="paragraph">
-<p>DELETE
+<pre class="highlight"><code class="language-sql" data-lang="sql">DELETE
 FROM Empleados
-WHERE complemento IS NULL;</p>
+WHERE complemento IS NULL;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 18. Ejemplo. Comprobar que los empleados con complemento nulo han sido eliminados.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Comprobar que los empleados con complemento nulo han sido eliminados.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT *
-FROM Empleados;</p>
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT *
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
+<th class="tableblock halign-left valign-top">complemento_es_nulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7844</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Turner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-08</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Ejemplo. Volver a insertar los registros eliminados anteriormente (con complemento nulo) para restaurar la tabla Empleados a su estado original.</div>
 <div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id,complemento_es_nulo
-7499,Allen,Vendedor,7698,2001-02-20,1600.0,300.0,30,0
-7521,Ward,Vendedor,7698,2001-02-22,1250.0,500.0,30,0
-7654,Martin,Vendedor,7698,2001-09-28,1250.0,1400.0,30,0
-7844,Turner,Vendedor,7698,2001-09-08,1500.0,0.0,30,0</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="title">Example 19. Ejemplo. Volver a insertar los registros eliminados anteriormente (con complemento nulo) para restaurar la tabla Empleados a su estado original.</div>
-<div class="content">
-<div class="paragraph">
-<p>INSERT INTO Empleados VALUES
+<pre class="highlight"><code class="language-sql" data-lang="sql">INSERT INTO Empleados VALUES
         (7369,'Smith','Ordenanza',7902,'2000-12-17',800,NULL,20);
 INSERT INTO Empleados VALUES
         (7566,'Jones','Directivo',7839,'2001-04-02',2975,NULL,20);
@@ -1096,8 +1824,7 @@ INSERT INTO Empleados VALUES
 INSERT INTO Empleados VALUES
         (7902,'Ford','Analista',7566,'2001-12-03',3000,NULL,20);
 INSERT INTO Empleados VALUES
-        (7934,'Miller','Ordenanza',7782,'2002-01-23',1300,NULL,10);</p>
-</div>
+        (7934,'Miller','Ordenanza',7782,'2002-01-23',1300,NULL,10);</code></pre>
 </div>
 </div>
 </div>
@@ -1136,16 +1863,13 @@ INSERT INTO Empleados VALUES
 </tr>
 </table>
 </div>
-<div class="exampleblock">
-<div class="title">Example 20. Ejemplo. Cargar en el cuaderno Jupyter el archivo <code>nuevo_personal.csv</code>.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Cargar en el cuaderno Jupyter el archivo <code>nuevo_personal.csv</code>.</div>
 <div class="content">
-<div class="paragraph">
-<p>import pandas as pd</p>
-</div>
-<div class="paragraph">
-<p>df = pd.read_csv("https://gist.githubusercontent.com/ualmtorres/4c842fadc6a7cc98389a837e4a7ca78d/raw/d4f7fff58a2e60a72a384d0813fecc6cd941c85c/nuevo_personal.csv")
-df.head()</p>
-</div>
+<pre class="highlight"><code class="language-python" data-lang="python">import pandas as pd
+
+df = pd.read_csv("https://gist.githubusercontent.com/ualmtorres/4c842fadc6a7cc98389a837e4a7ca78d/raw/d4f7fff58a2e60a72a384d0813fecc6cd941c85c/nuevo_personal.csv")
+df.head()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1164,16 +1888,62 @@ df.head()</p>
 </li>
 </ol>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id
-1000,Ripley,Editor,7839,2025-10-10,2200,NaN,40
-1001,Dubert,Grafista,1000,2025-11-11,1600,300.0,40
-1002,Pitsen,Grafista,1000,2025-11-11,1600,100.0,40</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ripley</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Editor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-10-10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NaN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1001</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dubert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grafista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-11-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pitsen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grafista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-11-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+</tr>
+</tbody>
+</table>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1182,19 +1952,17 @@ df.head()</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Los valores nulos en el archivo CSV se representan como celdas vacías. Al cargar el archivo en el DataFrame, pandas automáticamente interpreta estas celdas vacías como valores <code>NaN`</code> (Not a Number), que es la representación estándar de valores nulos en pandas. Esto posteriomente lo trataremos para que sean convertidos en <code>NULL</code> al insertar los datos en la base de datos MySQL.</p>
+<p>Los valores nulos en el archivo CSV se representan como celdas vacías. Al cargar el archivo en el DataFrame, pandas automáticamente interpreta estas celdas vacías como valores <code>NaN</code> (Not a Number), que es la representación estándar de valores nulos en pandas. Esto posteriomente lo trataremos para que sean convertidos en <code>NULL</code> al insertar los datos en la base de datos MySQL.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p>import pymysql</p>
-</div>
-<div class="paragraph">
-<p># Conexión al MySQL en Aiven
+<pre class="highlight"><code class="language-python" data-lang="python">import pymysql
+
+# Conexión al MySQL en Aiven
 conn = pymysql.connect(
     host='your-aiven-host.aivencloud.com',
     user='your-username',
@@ -1202,8 +1970,7 @@ conn = pymysql.connect(
     database='your-database',
     port=28830  # El puerto de la base de datos Aiven
 )
-cursor = conn.cursor()</p>
-</div>
+cursor = conn.cursor()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1244,22 +2011,19 @@ cursor = conn.cursor()</p>
 <div class="paragraph">
 <p>Esta conexión permite interactuar con la base de datos MySQL desde Python, facilitando operaciones como insertar, actualizar, eliminar o consultar datos</p>
 </div>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p># Insertar fila a fila convirtiendo NaN a None
+<pre class="highlight"><code class="language-python" data-lang="python"># Insertar fila a fila convirtiendo NaN a None
 for row in df.itertuples(index=False):
     values = tuple(None if (isinstance(x, float) and np.isnan(x)) else x for x in row)
     cursor.execute("""
         INSERT INTO Empleados (id, nombre, empleo, jefe, fecha_entrada, sueldo, complemento, departamento_id)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-    """, values)</p>
-</div>
-<div class="paragraph">
-<p>conn.commit()
+    """, values)
+
+conn.commit()
 cursor.close()
-conn.close()</p>
-</div>
+conn.close()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1282,32 +2046,139 @@ conn.close()</p>
 </li>
 </ol>
 </div>
-<div class="exampleblock">
-<div class="title">Example 21. Ejemplo. Comprobar los datos insertados desde el CSV en la tabla Empleados.</div>
+<div class="listingblock">
+<div class="title">Ejemplo. Comprobar los datos insertados desde el CSV en la tabla Empleados.</div>
 <div class="content">
-<div class="paragraph">
-<p>SELECT *
-FROM Empleados;</p>
+<pre class="highlight"><code class="language-sql" data-lang="sql">SELECT *
+FROM Empleados;</code></pre>
 </div>
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>id,nombre,empleo,jefe,fecha_entrada,sueldo,complemento,departamento_id
-1000,Ripley,Editor,7839,2025-10-10,2200.0,,40
-1001,Dubert,Grafista,1000,2025-11-11,1600.0,300.0,40
-1002,Pitsen,Grafista,1000,2025-11-11,1600.0,100.0,40
-7369,Smith,Ordenanza,7902,2000-12-17,800.0,,20
-7499,Allen,Vendedor,7698,2001-02-20,1600.0,300.0,30
-7521,Ward,Vendedor,7698,2001-02-22,1250.0,500.0,30
-7566,Jones,Directivo,7839,2001-04-02,2975.0,,20
-7654,Martin,Vendedor,7698,2001-09-28,1250.0,1400.0,30
-7698,Blake,Directivo,7839,2001-05-01,2850.0,,30
-7782,Clark,Directivo,7839,2001-06-09,2450.0,,10</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">nombre</th>
+<th class="tableblock halign-left valign-top">empleo</th>
+<th class="tableblock halign-left valign-top">jefe</th>
+<th class="tableblock halign-left valign-top">fecha_entrada</th>
+<th class="tableblock halign-left valign-top">sueldo</th>
+<th class="tableblock halign-left valign-top">complemento</th>
+<th class="tableblock halign-left valign-top">departamento_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ripley</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Editor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-10-10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2200.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1001</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dubert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grafista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-11-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1002</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pitsen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grafista</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-11-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7369</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Smith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ordenanza</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7902</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2000-12-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">800.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7499</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1600.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7521</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-02-22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7566</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-04-02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2975.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7654</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Martin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendedor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-09-28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1250.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1400.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7698</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Blake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-05-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2850.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7782</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clark</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directivo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2001-06-09</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2450.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Una vez que los datos se han cargado desde un archivo CSV a la base de datos o al entorno de análisis, es cuando se realizarían las operaciones de preparación de datos descritas anteriormente. Esto se debe a que los archivos CSV suelen contener valores ausentes, inconsistencias, errores de formato o tipos de datos incorrectos que pueden afectar la calidad y fiabilidad del análisis.</p>
 </div>
@@ -1353,7 +2224,7 @@ FROM Empleados;</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-01-11 16:33:07 +0100
+Last updated 2026-01-11 17:00:51 +0100
 </div>
 </div>
 </body>

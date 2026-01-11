@@ -47,7 +47,7 @@ Veamos algunos ejemplos prácticos de limpieza de datos en SQL.
 
 .Ejemplo. Obtener id, nombre, sueldo y complemento de empleados sin complemento asignado.
 [source,sql]
-====
+----
 SELECT
     id,
     nombre,
@@ -55,7 +55,7 @@ SELECT
     complemento
 FROM Empleados
 WHERE complemento IS NULL;
-====
+----
 
 [format="csv",options="header"]
 |===================================================
@@ -64,37 +64,41 @@ include::scripts/Preparacion/Ejemplo001.csv[]
 
 .Ejemplo. Obtener id, nombre y empleo de empleados sin jefe asignado.
 [source,sql]
-====
+----
 SELECT
     id,
     nombre,
     empleo
 FROM Empleados
 WHERE jefe IS NULL;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo002.csv[]
-====
+|===================================================
+
 
 La consulta anterior es reescribible con `ISNULL()` como:
 [source,sql]
-====
+----
 SELECT
     id,
     nombre,
     empleo
 FROM Empleados
 WHERE ISNULL(jefe);
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo003.csv[]
-====
+|===================================================
+
 
 .Ejemplo. Obtener departamentos sin empleados.
 [source,sql]
-====
+----
 SELECT
     d.id,
     d.nombre
@@ -102,15 +106,17 @@ FROM Departamentos d
 LEFT JOIN Empleados e
     ON d.id = e.departamento_id
 WHERE e.id IS NULL;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo004.csv[]
-====
+|===================================================
+
 
 .Ejemplo. Obtener empleados con su sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.
 [source,sql]
-====
+----
 SELECT
     id,
     nombre,
@@ -118,24 +124,27 @@ SELECT
     COALESCE(complemento, 0) AS complemento,
     sueldo + COALESCE(complemento, 0) AS salario_total
 FROM Empleados;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo005.csv[]
-====
+|===================================================
 
 .Ejemplo. Detección de empleados con el mismo nombre, empleo y jefe asignado (posible duplicado).
 [source,sql]
-====
+----
 SELECT nombre, empleo, jefe, COUNT(*) AS cantidad
 FROM Empleados
 GROUP BY nombre, empleo, jefe
 HAVING COUNT(*) > 1;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo006.csv[]
-====
+|===================================================
+
 
 ## Detección de valores atípicos (outliers)
 
@@ -147,34 +156,39 @@ Veamos algunos ejemplos prácticos de detección de outliers en SQL.
 
 .Ejemplo. Detección de empleados con sueldo por encima o por debajo de dos desviaciones estándar de la media. (Usar la función STDDEV_POP para obtener la desviación estándar poblacional).
 [source,sql]
-====
+----
 SELECT id, nombre, sueldo
 FROM Empleados
 WHERE sueldo > (SELECT AVG(sueldo) + 2*STDDEV_POP(sueldo) FROM Empleados)
    OR sueldo < (SELECT AVG(sueldo) - 2*STDDEV_POP(sueldo) FROM Empleados);
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo007.csv[]
-====
+|===================================================
+
 
 .Ejemplo. Realizar una consulta análoga para detectar empleados con complementos atípicos usando la misma lógica de desviación estándar.
 [source,sql]
-====
+----
 SELECT id, nombre, complemento
 FROM Empleados
 WHERE complemento IS NOT NULL
   AND (complemento > (SELECT AVG(complemento) + 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL)
        OR complemento < (SELECT AVG(complemento) - 2*STDDEV_POP(complemento) FROM Empleados WHERE complemento IS NOT NULL));
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo008.csv[]
-====
+|===================================================
+
 
 ## Ingeniería de características
 
 La ingeniería de características implica la creación de nuevas variables a partir de las existentes para mejorar los modelos analíticos. En SQL, esto puede incluir, entre otras:
+
 - **Creación de nuevas columnas**: Utilizar expresiones SQL para derivar nuevas columnas basadas en cálculos o transformaciones de las columnas existentes.
 - **Agrupación de datos**: Crear variables categóricas a partir de variables numéricas mediante la agrupación en rangos o categorías.
 - **Combinación de columnas**: Concatenar o combinar múltiples columnas para formar nuevas características.
@@ -183,7 +197,7 @@ Veamos algunos ejemplos prácticos de ingeniería de características en SQL.
 
 .Ejemplo. Obtener id, nombre, sueldo y complemento de cada empleado añadiéndole una columna de sueldo total (sueldo + complemento), manejando valores nulos en complemento. Los valores nulos en complemento se deben considerar como 0.
 [source,sql]
-====
+----
 SELECT 
     id,
     nombre,
@@ -191,34 +205,38 @@ SELECT
     complemento,
     sueldo + COALESCE(complemento,0) AS sueldo_total
 FROM Empleados;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo009.csv[]
-====
+|===================================================
+
 
 La función `TIMESTAMPDIFF()` puede ser útil para crear nuevas características basadas en diferencias de tiempo entre fechas. Esta función calcula la diferencia entre dos marcas de tiempo en unidades especificadas (como días, meses o años), lo que puede ser útil para analizar la antigüedad de empleados, duración de proyectos u otros aspectos temporales en los datos.
 
 .Ejemplo. Calcular la antigüedad de cada empleado en años a partir de su fecha de contratación.
 [source,sql]
-====
+----
 SELECT 
     id,
     nombre,
     fecha_entrada,
     TIMESTAMPDIFF(YEAR, fecha_entrada, CURDATE()) AS antiguedad_anios
 FROM Empleados;
-====
+----
 
 Otra opción interesante es usar la función `CASE` para crear nuevas características basadas en condiciones específicas. Por ejemplo, podemos categorizar a los emmpleados según su empleo.
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo010.csv[]
-====
+|===================================================
+
 
 .Ejemplo. Crear una nueva columna que clasifique a los empleados en `Dirección` y `Operativo` según su empleo. Los empleados con empleo 'Directivo' o 'Director' se clasificarán como 'Dirección', mientras que el resto se clasificará como 'Operativo'.
 [source,sql]
-====
+----
 SELECT 
     id,
     nombre,
@@ -228,11 +246,13 @@ SELECT
         ELSE 'Operativo'
     END AS Direccion
 FROM Empleados;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo011.csv[]
-====
+|===================================================
+
 
 ## Tratamiento de datos ausentes
 
@@ -247,50 +267,53 @@ Podemos usar el concepto de vistas en SQL para crear diferentes versiones de los
 
 .Ejemplo. Crear una vista que muestre los empleados junto con una columna adicional que indique si el complemento es nulo o no.
 [source,sql]
-====
+----
 CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
 SELECT *,
        CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
 FROM Empleados; 
-====
+----
 
 .Ejemplo. Consultar la vista creada.
 
 [source,sql]
-====
+----
 SELECT *
 FROM empleados_con_indicador_de_complemento;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo012.csv[]
-====
+|===================================================
+
 
 .Ejemplo. Modificar la vista anterior para que, además del indicador de complemento nulo, muestre el complemento con un valor predeterminado de 0 en lugar de NULL.
 [source,sql]
-====
+----
 CREATE OR REPLACE VIEW empleados_con_indicador_de_complemento AS
 SELECT id,
         nombre, empleo, jefe, fecha_entrada, sueldo, COALESCE(complemento, 0) AS complemento, departamento_id,
        CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
 FROM Empleados;
-====
+----
 
 .Ejemplo. Consultar la vista creada.
 
 [source,sql]
-====
+----
 SELECT *
 FROM empleados_con_indicador_de_complemento;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo013.csv[]
-====
+|===================================================
 
 .Ejemplo. Crear una vista que haga una imputación de valores nulos en la columna de complemento, reemplazándolos con la media de los complementos no nulos, y que también incluya un indicador de si el complemento original era nulo.
 [source,sql]
-====
+----
 CREATE OR REPLACE VIEW empleados_con_complemento_imputado_con_media AS
 SELECT id,
         nombre, empleo, jefe, fecha_entrada, sueldo, 
@@ -298,43 +321,47 @@ SELECT id,
        departamento_id,
        CASE WHEN complemento IS NULL THEN 1 ELSE 0 END AS complemento_es_nulo
 FROM Empleados;
-====
+----
 
 .Ejemplo. Consultar la vista creada anteriormente.
 [source,sql]
-====
+----
 SELECT *
 FROM empleados_con_complemento_imputado_con_media;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo014.csv[]
-====
+|===================================================
+
 
 Para eliminar registros con valores nulos, se puede usar la sentencia `DELETE`.
 
 .Ejemplo. Eliminar registros de empleados donde el complemento es nulo.
 [source,sql]
-====
+----
 DELETE 
 FROM Empleados
 WHERE complemento IS NULL;
-====
+----
 
 .Ejemplo. Comprobar que los empleados con complemento nulo han sido eliminados.
 [source,sql]
-====
+----
 SELECT *
 FROM Empleados;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo015.csv[]
-====
+|===================================================
+
 
 .Ejemplo. Volver a insertar los registros eliminados anteriormente (con complemento nulo) para restaurar la tabla Empleados a su estado original.
 [source,sql]
-====
+----
 INSERT INTO Empleados VALUES
         (7369,'Smith','Ordenanza',7902,'2000-12-17',800,NULL,20);
 INSERT INTO Empleados VALUES
@@ -355,7 +382,7 @@ INSERT INTO Empleados VALUES
         (7902,'Ford','Analista',7566,'2001-12-03',3000,NULL,20);
 INSERT INTO Empleados VALUES
         (7934,'Miller','Ordenanza',7782,'2002-01-23',1300,NULL,10);
-====
+----
 
 ## Tratamiento de archivos CSV
 
@@ -378,12 +405,12 @@ Nos apoyaremos en los dataframes, una estructura de datos tabular proporcionada 
 
 .Ejemplo. Cargar en el cuaderno Jupyter el archivo `nuevo_personal.csv`.
 [source,python]
-====
+----
 import pandas as pd
 
 df = pd.read_csv("https://gist.githubusercontent.com/ualmtorres/4c842fadc6a7cc98389a837e4a7ca78d/raw/d4f7fff58a2e60a72a384d0813fecc6cd941c85c/nuevo_personal.csv")
 df.head()
-====
+----
 
 El código anterior realizar lo siguiente:
 
@@ -391,17 +418,19 @@ El código anterior realizar lo siguiente:
 2. Lee el archivo CSV "nuevo_personal.csv" y lo carga en un DataFrame
 3. Muestra las primeras 5 filas del DataFrame con `df.head()`
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo016.csv[]
-====
+|===================================================
+
 
 [NOTE]
 ====
-Los valores nulos en el archivo CSV se representan como celdas vacías. Al cargar el archivo en el DataFrame, pandas automáticamente interpreta estas celdas vacías como valores `NaN`` (Not a Number), que es la representación estándar de valores nulos en pandas. Esto posteriomente lo trataremos para que sean convertidos en `NULL` al insertar los datos en la base de datos MySQL.
+Los valores nulos en el archivo CSV se representan como celdas vacías. Al cargar el archivo en el DataFrame, pandas automáticamente interpreta estas celdas vacías como valores `NaN` (Not a Number), que es la representación estándar de valores nulos en pandas. Esto posteriomente lo trataremos para que sean convertidos en `NULL` al insertar los datos en la base de datos MySQL.
 ====
 
 [source,python]
-====
+----
 import pymysql
 
 # Conexión al MySQL en Aiven
@@ -413,7 +442,7 @@ conn = pymysql.connect(
     port=28830  # El puerto de la base de datos Aiven
 )
 cursor = conn.cursor()
-====
+----
 
 El código anterior realiza lo siguiente:
 
@@ -431,7 +460,7 @@ El código anterior realiza lo siguiente:
 Esta conexión permite interactuar con la base de datos MySQL desde Python, facilitando operaciones como insertar, actualizar, eliminar o consultar datos
 
 [source,python]
-====
+----
 # Insertar fila a fila convirtiendo NaN a None
 for row in df.itertuples(index=False):
     values = tuple(None if (isinstance(x, float) and np.isnan(x)) else x for x in row)
@@ -443,7 +472,7 @@ for row in df.itertuples(index=False):
 conn.commit()
 cursor.close()
 conn.close()
-====
+----
 
 El código anterior lee del DataFrame (`df`) con los datos importados desde el CSV y vuelca fila a fila esos registros en la tabla Empleados de la base de datos MySQL.
 
@@ -459,14 +488,16 @@ El código anterior lee del DataFrame (`df`) con los datos importados desde el C
 .Ejemplo. Comprobar los datos insertados desde el CSV en la tabla Empleados.
 
 [source, sql]
-====
+----
 SELECT *
 FROM Empleados;
-====
+----
 
-====
+[format="csv",options="header"]
+|===================================================
 include::scripts/Preparacion/Ejemplo017.csv[]
-====
+|===================================================
+
 
 Una vez que los datos se han cargado desde un archivo CSV a la base de datos o al entorno de análisis, es cuando se realizarían las operaciones de preparación de datos descritas anteriormente. Esto se debe a que los archivos CSV suelen contener valores ausentes, inconsistencias, errores de formato o tipos de datos incorrectos que pueden afectar la calidad y fiabilidad del análisis.
 
