@@ -31,6 +31,7 @@ Este curso proporciona una introducción a las bases de datos relacionales y al 
 
 * https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/introduccion/sql.ipynb[Notebook de introducción a SQL con la base de datos de RRHH, window="_blank"]
 * https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/ejercicios/ejercicios-sg.ipynb[Notebook de ejercicios para la base de datos de Sporting Goods, window="_blank"]
+* https://github.com/ualmtorres/dbds-labs/blob/main/notebooks/ejercicios/ejercicios-preparacion.ipynb[Notebook de ejercicios de preparación de datos, window="_blank"]
 
 == Bases de datos de ejemplo
 
